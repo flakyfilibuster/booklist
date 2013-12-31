@@ -14,9 +14,8 @@ var Comm = (function () {
 
     Comm.prototype.request = function(method, api, params, cbSuccess, cbError) {
         var xhr = new XMLHttpRequest(),
-            // don't need this as endpoint and api are the same
-            //url = this.endpoint + api;
-            url = api;
+            url = this.endpoint + api;
+            //url = api;
 
         console.log(method, url, params);    
         xhr.open(method, url, true);

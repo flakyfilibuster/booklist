@@ -1,7 +1,7 @@
 (function (window, Comm) {
    
     
-    var comm = new Comm({ endpoint: "" }),
+    var comm = new Comm({ endpoint: "http://books-flaky.rhcloud.com/" }),
         doc = window.document,
         addButton    = doc.getElementById('addBookBtn'), 
         openIsbnForm = doc.querySelector('.icon-barcode'),
