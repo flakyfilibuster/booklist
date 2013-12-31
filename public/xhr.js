@@ -38,11 +38,11 @@ var Comm = (function () {
 
 
         // FIND OUT, WHY THIS IS CAUSING SO MUCH TROUBLE WITH POSTING THE DATA!
-        if (method === POST) {
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded", false);
-        }
+        //if (method === POST) {
+            //xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded", false);
+        //}
 
-        xhr.send(params);
+        xhr.send(null);
 
     };
 
