@@ -38,9 +38,9 @@ var Comm = (function () {
 
 
         // FIND OUT, WHY THIS IS CAUSING SO MUCH TROUBLE WITH POSTING THE DATA!
-        //if (method === POST) {
-            //xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        //}
+        if (method === POST) {
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        }
 
         xhr.send(params);
 
