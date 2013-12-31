@@ -5,6 +5,8 @@ var collections = ["books"];
 var db = require("mongojs").connect(databaseUrl, collections);
 var app = express(); 
 var request = require('request');
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP;
+var port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
 //googlebookapi url constant
 var GBOOKAPI = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
@@ -90,5 +92,9 @@ app.get('/books', function(req, res){
 });
 
 
-app.listen(3000);
-console.log('Listening on port 3000');
+//app.listen(3000);
+//console.log('Listening on port 3000');
+app.listen(port, ipaddress, function() {
+    console.log('%s: Node server started on %s:%d ...',
+    Date(Date.now() ), ipaddress, port);
+});
