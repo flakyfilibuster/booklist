@@ -65,22 +65,22 @@ app.post('/addBook', function(req, res) {
     ////no isbn - custom entry
     //} else {
         inputData = req.body;
-        //db.books.save({
-            //title: inputData.title,
-            //author: inputData.author,
-            //coverLink: 'img/default.jpg',
-            //date: new Date(inputData.date).toDateString(),
-            //type: inputData.book_type,
-            //rating: inputData.rating,
-            //lang: inputData.book_lang
-        //}, function(err, saved) {
-            //if (!err) {
+        db.books.save({
+            title: inputData.title,
+            author: inputData.author,
+            coverLink: 'img/default.jpg',
+            date: new Date(inputData.date).toDateString(),
+            type: inputData.book_type,
+            rating: inputData.rating,
+            lang: inputData.book_lang
+        }, function(err, saved) {
+            if (!err) {
                 res.status('200').send(inputData);
-                //console.log("Book saved");
-            //} else {
-                //console.log("Issue while saving");
-            //}
-        //});
+                console.log("Book saved");
+            } else {
+                console.log("Issue while saving");
+            }
+        });
     //}
 });
 
