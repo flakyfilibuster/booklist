@@ -14,7 +14,8 @@
     // Add Book to the database
     function addBook(e) {
         e.preventDefault();
-        var oMyForm = new FormData(window.document.getElementById("addBook"));
+        //var oMyForm = new FormData(window.document.getElementById("addBook"));
+        var oMyForm = "test";
         comm.addBook(oMyForm, 
             function(success) {
                 console.log("success main.js");
