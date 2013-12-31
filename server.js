@@ -64,7 +64,7 @@ app.post('/addBook', function(req, res) {
         //});
     ////no isbn - custom entry
     //} else {
-        inputData = req.body;
+        inputData = req.body.toString();
         //db.books.save({
             //title: inputData.title,
             //author: inputData.author,
@@ -75,7 +75,7 @@ app.post('/addBook', function(req, res) {
             //lang: inputData.book_lang
         //}, function(err, saved) {
             //if (!err) {
-                res.status('200').send('FUCK YOU!');
+                res.status('200').send(inputData);
                 //console.log("Book saved");
             //} else {
                 //console.log("Issue while saving");
