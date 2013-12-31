@@ -64,7 +64,7 @@ app.post('/addBook', function(req, res) {
         //});
     ////no isbn - custom entry
     //} else {
-        inputData = req.body.toString();
+        inputData = req.body.data.toString();
         //db.books.save({
             //title: inputData.title,
             //author: inputData.author,
