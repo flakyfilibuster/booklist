@@ -1,6 +1,6 @@
 #!/bin/env node
 var express = require('express');
-var databaseUrl = "mydb";
+var databaseUrl = "books";
 var collections = ["books"];
 var db = require("mongojs").connect(databaseUrl, collections);
 var app = express(); 
