@@ -75,7 +75,7 @@ app.post('/addBook', function(req, res) {
             //lang: inputData.book_lang
         //}, function(err, saved) {
             //if (!err) {
-                res.status('200').send(inputData);
+                res.status('200').send('FUCK YOU!');
                 //console.log("Book saved");
             //} else {
                 //console.log("Issue while saving");
