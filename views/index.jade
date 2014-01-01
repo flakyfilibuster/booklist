@@ -79,16 +79,16 @@ html
               th Lang
               th Rating
               th Cover
-          //-for book in books
-            //-tr
-              //-td= book.title
-              //-td= book.author
-              //-td= book.date
-              //-td= book.type
-              //-td= book.lang
-              //-td(data-rating=book.rating)
-              //-td: img(src=book.coverLink)
-          //-else
+          for book in books
+            tr
+              td= book.title
+              td= book.author
+              td= book.date
+              td= book.type
+              td= book.lang
+              td(data-rating=book.rating)
+              td: img(src=book.coverLink)
+          else
             tr sorry, no books!
   script(src="xhr.js")
   script(src="main.js")
