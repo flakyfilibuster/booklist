@@ -15,7 +15,6 @@ var Comm = (function () {
     Comm.prototype.request = function(method, api, params, cbSuccess, cbError) {
         var xhr = new XMLHttpRequest(),
             url = this.endpoint + api;
-            //url = api;
 
         console.log(method, url, params);    
         xhr.open(method, url, true);
@@ -37,12 +36,11 @@ var Comm = (function () {
         };
 
 
-        // FIND OUT, WHY THIS IS CAUSING SO MUCH TROUBLE WITH POSTING THE DATA!
         //if (method === POST) {
             //xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded", false);
         //}
 
-        xhr.send(null);
+        xhr.send(params);
 
     };
 
