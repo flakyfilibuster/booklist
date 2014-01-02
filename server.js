@@ -5,6 +5,10 @@ var request = require('request');
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
+// default to a 'localhost' configuration:
+var connection_string = 'mydb';
+
+// switch when run on openshift cloud
 if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
   connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
   process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
@@ -41,14 +45,19 @@ app.post('/addBook', function(req, res) {
     // Is book with isbn information
     if (req.body.isbn) {
         request(GBOOKAPI + req.body.isbn, function (err, response, body) {
-            console.log(body);
             if (!err && response.statusCode == 200) {
-                inputData = JSON.parse(body);
+                inputData = JSON.parse(body).items[0].volumeInfo;
+
+
+                if(!inputData.imageLinks) {
+                    inputData.imageLinks = {smallThumbnail : 'img/default.jpg'};
+                }
+
                 try {
                     db.books.save({
-                        title: inputData.items[0].volumeInfo.title,
-                        author: inputData.items[0].volumeInfo.authors[0],
-                        coverLink: inputData.items[0].volumeInfo.imageLinks.smallThumbnail,
+                        title: inputData.title,
+                        author: inputData.authors[0],
+                        coverLink: inputData.imageLinks.smallThumbnail,
                         date: new Date(req.body.date).toDateString(),
                         type: req.body.book_type,
                         rating: req.body.rating,
