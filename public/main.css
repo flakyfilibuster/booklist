@@ -10,7 +10,7 @@
 .rating
 {
     margin: 0 auto;
-    width: 108px;
+    width: 85px;
 }
 
 /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
@@ -114,5 +114,21 @@
 .main-container
 {
     width: 970px;
-    margin: 0 auto;
+    margin: 50px auto;
+}
+
+form
+{
+    border: 1px solid #ccf;
+    border-width: 1px 0px 1px 0px;
+}
+
+legend
+{
+    border-bottom: 0px;
+}
+
+fieldset
+{
+    padding-bottom: 10px;
 }
