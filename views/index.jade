@@ -6,11 +6,11 @@ html
     link(rel='stylesheet', href='main.css')
   body
     div.main-container
-      div(class="alert alert-error hide")
+      div(class="alert alert-error hide text-center")
         |something went wrong while saving, please try again :(
-      div(class="alert alert-success hide")
+      div(class="alert alert-success hide text-center")
         |all good, book added to list :)
-      div.page-header
+      div
         h1.text-center BOOKLIST
           div.form-selector
             i.icon-barcode
@@ -50,8 +50,8 @@ html
                 |Non-Fiction
 
           div.controls
-              label
-                |Rate this book
+            label
+              |Rate this book
             div.rating
               input(type="radio" id="star5" name="rating" value="5")
               label(class="radio" for="star5" title="Algebraic!")
