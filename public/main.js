@@ -35,7 +35,7 @@
     function displayer(element) {
        element.classList.toggle('hide'); 
        setTimeout(function () {
-           element.classList.toggle('hide')
+           element.classList.toggle('hide');
        }, 3000);
     }
 
@@ -69,13 +69,13 @@
             form.querySelector("#author").parentNode.classList.remove('hide');
             form.querySelector("#title").parentNode.classList.remove('hide');
         }
-    }
+    };
 
 
 
     // Validate the form input 
     function checkForm() {
-        addButton.set("disabled", !(title.get('value') && author.get('value')))  
+        addButton.set("disabled", !(title.get('value') && author.get('value')));
     }
 
     addButton.addEventListener('click', addBook, false);
