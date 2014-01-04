@@ -10,6 +10,10 @@
         succAlert    = doc.querySelector('.alert-success'),
         failAlert    = doc.querySelector('.alert-error');
 
+    //Prefill todays date in datepicker
+    function dater() {
+       form.date.value = new Date().toISOString().slice(0,10);
+    }
 
     // Add Book to the database
     function addBook(e) {
@@ -32,7 +36,7 @@
        element.classList.toggle('hide'); 
        setTimeout(function () {
            element.classList.toggle('hide')
-       }, 2000);
+       }, 3000);
     }
 
 
@@ -77,5 +81,6 @@
     addButton.addEventListener('click', addBook, false);
     openIsbnForm.addEventListener('click', revealForm, false);
     openCustForm.addEventListener('click', revealForm, false);
+    dater();
 
 }(window, Comm));
