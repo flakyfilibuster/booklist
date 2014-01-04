@@ -32,7 +32,8 @@ app.use(express.bodyParser());
 
 // ROOT logic
 app.get('/', function(req, res){
-    db.books.find(function(err, books) {
+    db.books.find().sort({$natural: -1}, function(err, books) {
+        console.log(books);
         res.render('index.jade', {"books": books});
     });
 });
