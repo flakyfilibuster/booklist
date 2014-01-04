@@ -1,7 +1,9 @@
+- var amountOfBooks = "Books "+books.length;
+- var i=1;
 !!! 5
 html
   head
-    title Booklist 
+    title Booklist
     link(rel='stylesheet', href='bootstrap.css')
     link(rel='stylesheet', href='main.css')
   body
@@ -11,7 +13,7 @@ html
       div(class="alert alert-success hide text-center")
         |all good, book added to list :)
       div
-        h1.text-center BOOKLIST
+        h1.text-center=amountOfBooks
           div.form-selector
             i.icon-barcode
             i.icon-pencil
@@ -72,6 +74,7 @@ html
         table.center-table.list-wrapper.table.table-condensed
           thead
             tr
+              th #
               th Title 
               th Author
               th Date Added
@@ -81,6 +84,7 @@ html
               th Cover
           for book in books
             tr
+              td= i 
               td= book.title
               td= book.author
               td= book.date
@@ -88,6 +92,7 @@ html
               td= book.lang
               td(data-rating=book.rating)
               td: img(src=book.coverLink)
+            - i = i+1;
           else
             tr sorry, no books!
   script(src="xhr.js")
