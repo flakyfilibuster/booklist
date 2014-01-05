@@ -1,7 +1,7 @@
 (function (window, Comm) {
 
     var comm         = new Comm({ endpoint: "" }),
-        _data        = books
+        _data        = books,
         doc          = window.document,
         addButton    = doc.getElementById('addBookBtn'), 
         openIsbnForm = doc.querySelector('.icon-barcode'),
