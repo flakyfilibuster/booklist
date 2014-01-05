@@ -1,5 +1,5 @@
-- var amountOfBooks = "Books "+books.length;
-- var i=1;
+- var amountOfBooks = books.length;
+- var listTitle = amountOfBooks + " Books!";
 !!! 5
 html
   head
@@ -13,7 +13,7 @@ html
       div(class="alert alert-success hide text-center")
         |all good, book added to list :)
       div
-        h1.text-center=amountOfBooks
+        h1.text-center=listTitle
           div.form-selector
             i.icon-barcode
             i.icon-pencil
@@ -84,7 +84,7 @@ html
               th Cover
           for book in books
             tr
-              td= i 
+              td= amountOfBooks
               td= book.title
               td= book.author
               td= book.date
@@ -92,7 +92,7 @@ html
               td= book.lang
               td(data-rating=book.rating)
               td: img(src=book.coverLink)
-            - i = i+1;
+            - amountOfBooks--;
           else
             tr sorry, no books!
   script.
