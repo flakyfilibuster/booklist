@@ -28,7 +28,7 @@ var GBOOKAPI = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
 app.use(express.static(__dirname + '/public'));
 
 // middleware to read form post values
-app.use(express.bodyParser());
+app.use(express.multipart());
 
 // ROOT logic
 app.get('/', function(req, res){
