@@ -18,7 +18,8 @@
     // Add Book to the database
     function addBook(e) {
         e.preventDefault();
-        var oMyForm = new FormData(doc.getElementById("addBook"));
+        var oMyForm = formScraper(form);
+        form.reset();
         comm.addBook(oMyForm, 
             function(success) {
                 console.log("success main.js");
@@ -31,6 +32,20 @@
         );
     }
 
+    function formScraper(form) {
+        formDataObj = {};
+
+        for(var i = 0; i<form.length; i++){
+            if(form[i].tagName === "INPUT"){
+                if(form[i].type === "radio" && form[i].checked){
+                   formDataObj[form[i].name] = form[i].value;
+                }else if(form[i].type != "radio"){
+                   formDataObj[form[i].name] = form[i].value;
+                }
+            }
+        }
+        return JSON.stringify(formDataObj);
+    }
 
     function displayer(element) {
        element.classList.toggle('hide'); 
