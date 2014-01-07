@@ -36,9 +36,9 @@ var Comm = (function () {
         };
 
 
-        //if (method === POST) {
-            //xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded", false);
-        //}
+        if (method === POST) {
+            xhr.setRequestHeader("Content-type", "application/json", false);
+        }
 
         xhr.send(params);
 
