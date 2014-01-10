@@ -22,8 +22,9 @@
         form.reset();
         comm.addBook(oMyForm, 
             function(success) {
-                console.log("success main.js");
-                displayer(succAlert);
+                //console.log("success main.js");
+                bookPreview(success);
+                //displayer(succAlert);
             }, 
             function(err) {
                 console.log("failure main.js");
@@ -54,6 +55,12 @@
        }, 3000);
     }
 
+    function bookPreview(previewJSON) {
+        var myThumb = JSON.parse(previewJSON).items[0].volumeInfo.imageLinks.thumbnail
+        var myPreview = document.createElement("div");
+            myPreview.innerHTML = '<img src="{}">'.replace("{}", myThumb);
+        form.parentNode.replaceChild(myPreview, form);
+    }
 
     // CURRENTLY UNNEEDED
     // Add books to the document table
