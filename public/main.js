@@ -22,9 +22,9 @@
         form.reset();
         comm.addBook(oMyForm, 
             function(success) {
-                //console.log("success main.js");
-                bookPreview(success);
-                //displayer(succAlert);
+                console.log("success main.js");
+                //bookPreview(success);
+                displayer(succAlert);
             }, 
             function(err) {
                 console.log("failure main.js");
