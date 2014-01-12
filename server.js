@@ -47,39 +47,39 @@ app.post('/addBook', function(req, res) {
     if (req.body.isbn) {
         request(GBOOKAPI + req.body.isbn, function (err, response, body) {
             if (!err && response.statusCode == 200) {
-                //console.log(body);
-                //res.status(200).send(body);
-                inputData = JSON.parse(body).items[0].volumeInfo;
+                console.log(body);
+                res.status(200).send(body);
+                //inputData = JSON.parse(body).items[0].volumeInfo;
 
-                if(!inputData.imageLinks) {
-                    inputData.imageLinks = {smallThumbnail : 'img/default.jpg'};
-                }
+                //if(!inputData.imageLinks) {
+                    //inputData.imageLinks = {smallThumbnail : 'img/default.jpg'};
+                //}
 
-                try {
-                    db.books.save({
-                        title: inputData.title,
-                        author: inputData.authors[0],
-                        coverLink: inputData.imageLinks.smallThumbnail,
-                        date: new Date(req.body.date).toDateString(),
-                        type: req.body.book_type,
-                        rating: req.body.rating,
-                        lang: req.body.book_lang
-                    }, function(err, saved) {
-                        if (!err) {
-                            res.status(200).send('Book saved successfully');
-                            console.log("Book saved");
-                        } else {
-                            res.status(500).send('issues while saving');
-                            console.log("Issue while saving");
-                        }
-                    });
-                } catch (err) {
-                    console.log(err);
-                    res.status(500).send('issues while saving');
-                }
-            } else {
-                console.log("googleBooksResponse: ",response);
-                res.status(500).send('issues while retrieving googleapi info');
+                //try {
+                    //db.books.save({
+                        //title: inputData.title,
+                        //author: inputData.authors[0],
+                        //coverLink: inputData.imageLinks.smallThumbnail,
+                        //date: new Date(req.body.date).toDateString(),
+                        //type: req.body.book_type,
+                        //rating: req.body.rating,
+                        //lang: req.body.book_lang
+                    //}, function(err, saved) {
+                        //if (!err) {
+                            //res.status(200).send('Book saved successfully');
+                            //console.log("Book saved");
+                        //} else {
+                            //res.status(500).send('issues while saving');
+                            //console.log("Issue while saving");
+                        //}
+                    //});
+                //} catch (err) {
+                    //console.log(err);
+                    //res.status(500).send('issues while saving');
+                //}
+            //} else {
+                //console.log("googleBooksResponse: ",response);
+                //res.status(500).send('issues while retrieving googleapi info');
             }
         });
     //no isbn - custom entry

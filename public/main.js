@@ -7,6 +7,7 @@
         openIsbnForm = doc.querySelector('.icon-barcode'),
         openCustForm = doc.querySelector('.icon-pencil'),
         form         = doc.getElementById("addBook"),
+        previewBox   = doc.querySelector('.preview-box'),
         succAlert    = doc.querySelector('.alert-success'),
         failAlert    = doc.querySelector('.alert-error');
 
@@ -22,9 +23,9 @@
         form.reset();
         comm.addBook(oMyForm, 
             function(success) {
-                console.log("success main.js");
-                //bookPreview(success);
-                displayer(succAlert);
+                //console.log("success main.js");
+                bookPreview(success);
+                //displayer(succAlert);
             }, 
             function(err) {
                 console.log("failure main.js");
@@ -56,27 +57,21 @@
     }
 
     function bookPreview(previewJSON) {
-        var myThumb = JSON.parse(previewJSON).items[0].volumeInfo.imageLinks.thumbnail
-        var myPreview = document.createElement("div");
-            myPreview.innerHTML = '<img src="{}">'.replace("{}", myThumb);
-        form.parentNode.replaceChild(myPreview, form);
+        var previewInfo  = JSON.parse(previewJSON).items[0].volumeInfo,
+            title = previewInfo.title,
+            author = previewInfo.authors[0],
+            thumb = previewInfo.imageLinks.thumbnail,
+            date = previewInfo.publishedDate,
+            desc = previewInfo.description,
+            myPreview = previewBox.cloneNode(true);
+            
+            myPreview.querySelector('.img-container').innerHTML = '<img src='+thumb+'>';
+            myPreview.querySelector('.description').innerHTML = '<h4>'+title+'</h4><p>'+author+'</p></br><p>'+date+'</p></br><p>'+desc+'</p>';
+        
+        previewBox.parentNode.replaceChild(myPreview, previewBox);
+        myPreview.classList.remove('hide');
+        form.classList.add('hide');
     }
-
-    // CURRENTLY UNNEEDED
-    // Add books to the document table
-    //function addBooksToList(books) {
-        //var i, len, author, title, cover, micro, html = "";
-
-        //for (i = 0, len = books.length; i<len; i++ ) {
-            //author = books[i].author;
-            //title  = books[i].title; 
-            //cover = books[i].coverLink;
-            //micro = new Y.Template();
-            //html += micro.render('<tr><td><%= this.title %></td><td><%= this.author %></td><td>12.12.1999</td><td><img alt="<%=this.title%>"  src=<%= this.cover %></td></tr>', 
-                                   //{title: title, author: author, cover: cover});
-        //} 
-        //Y.one(".list-wrapper").append(html);
-    //};
 
 
     var revealForm = function(e) {
