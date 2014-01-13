@@ -65,8 +65,8 @@
             desc = previewInfo.description,
             myPreview = previewBox.cloneNode(true);
             
-            myPreview.querySelector('.img-container').innerHTML = '<img src='+thumb+'>';
-            myPreview.querySelector('.description').innerHTML = '<h4>'+title+'</h4><p>'+author+'</p></br><p>'+date+'</p></br><p>'+desc+'</p>';
+            myPreview.querySelector('.img-container').innerHTML = '<img class="img-polaroid" src='+thumb+'>';
+            myPreview.querySelector('.description').innerHTML = '<h4>'+title+'</h4><p>'+author+'</p><p>'+date+'</p><p>'+desc.slice(0,600)+'</p>';
         
         previewBox.parentNode.replaceChild(myPreview, previewBox);
         myPreview.classList.remove('hide');

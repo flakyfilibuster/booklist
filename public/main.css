@@ -132,3 +132,23 @@ fieldset
 {
     padding-bottom: 10px;
 }
+
+.preview-box .img-container
+{
+    float: left;
+    margin-bottom: 80px;
+}
+
+.preview-box .description
+{
+    float: left;
+    margin-left: 20px;
+    margin-bottom: 25px;
+    width: 810px;
+}
+
+.preview-box .controls .btn-success
+{
+    margin-right: 20px;
+    margin-left: 20px;
+}
