@@ -12,6 +12,11 @@ var Comm = (function () {
         this.request(POST, "/addBook", data, success, error);
     }
 
+    Comm.prototype.queryBook = function(data, success, error) {
+        console.log("data: ", data);
+        this.request(POST, "/queryBook", data, success, error);
+    }
+
     Comm.prototype.request = function(method, api, params, cbSuccess, cbError) {
         var xhr = new XMLHttpRequest(),
             url = this.endpoint + api;
