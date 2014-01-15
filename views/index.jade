@@ -16,7 +16,8 @@ html
         h1.text-center=listTitle
           div.form-selector
             i.icon-barcode
-            i.icon-pencil
+            // disabeling manual entry for now
+            //-i.icon-pencil
 
       div.formPreview
         form(class="form-horizontal text-center hide" id="addBook" action="addBook" method="POST" autocomplete="off")
@@ -75,8 +76,8 @@ html
           div.description
           div.controls
             span
-              button.btn.btn-success Yes, that's it!
-              button.btn.btn-warning Nope, not it.
+              button.btn.btn-success.book-accept Yes, that's it!
+              button.btn.btn-warning.book-decline Nope, not it.
 
       div.list-container 
         table.center-table.list-wrapper.table.table-condensed
@@ -99,7 +100,7 @@ html
               td= book.type
               td= book.lang
               td(data-rating=book.rating)
-              td: img(src=book.coverLink)
+              td: img(class='img-polaroid' src=book.coverLink)
             - amountOfBooks--;
           else
             tr sorry, no books!
