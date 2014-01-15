@@ -23,6 +23,7 @@ var books = db.collection('books');
 
 //googlebookapi url constant
 var GBOOKAPI = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
+var cachedBook = {};
 
 // define path to folder for serving static files
 app.use(express.static(__dirname + '/public'));
@@ -38,17 +39,77 @@ app.get('/', function(req, res){
     });
 });
 
+// Query google book api for a specific book and cache the returned info
+app.post('/queryBook', function(req, res){
+        request(GBOOKAPI + req.body.isbn, function (err, response, body) {
+            googleBookRes = JSON.parse(body);
+
+            if (!err && response.statusCode == 200) {
+                if (0 === googleBookRes.totalItems) {
+                    res.status(500).send("book not within googles shelfs");
+                    return;
+                }
+
+                googleBookRes = googleBookRes.items[0].volumeInfo;
+
+                if(!googleBookRes.imageLinks) {
+                    googleBookRes.imageLinks = {
+                        smallThumbnail : 'img/default.jpg',
+                        thumbnail: 'img/default.jpg'
+                    };
+                }
+
+                cachedBook = {
+                    title: googleBookRes.title,
+                    author: googleBookRes.authors[0],
+                    coverLink: googleBookRes.imageLinks,
+                    date: new Date(req.body.date).toDateString(),
+                    type: req.body.book_type,
+                    description :  googleBookRes.description,
+                    rating: req.body.rating,
+                    lang: req.body.book_lang
+                };
+                res.status(200).send(cachedBook);
+            } else {
+                res.status(500).send(err);
+            }
+        });
+});
+
+// Add cached book to collection
+app.post('/addBook', function(req, res) {
+    cachedBook.coverLink = cachedBook.coverLink.smallThumbnail;
+    try {
+        db.books.save(cachedBook, function(err, saved) {
+            if (!err) {
+                res.status(200).send('Book saved successfully');
+                console.log("Book saved");
+            } else {
+                res.status(500).send('issues while saving');
+                console.log("Issue while saving");
+            }
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('issues while saving');
+    }
+});
+
+
+
+
+
 
 // POST add a book to collection logic
-app.post('/addBook', function(req, res) {
-    var inputData;
+//app.post('/addBook', function(req, res) {
+    //var inputData;
 
-    // Is book with isbn information
-    if (req.body.isbn) {
-        request(GBOOKAPI + req.body.isbn, function (err, response, body) {
-            if (!err && response.statusCode == 200) {
-                console.log(body);
-                res.status(200).send(body);
+    //// Is book with isbn information
+    //if (req.body.isbn) {
+        //request(GBOOKAPI + req.body.isbn, function (err, response, body) {
+            //if (!err && response.statusCode == 200) {
+                //console.log(body);
+                //res.status(200).send(body);
                 //inputData = JSON.parse(body).items[0].volumeInfo;
 
                 //if(!inputData.imageLinks) {
@@ -80,29 +141,29 @@ app.post('/addBook', function(req, res) {
             //} else {
                 //console.log("googleBooksResponse: ",response);
                 //res.status(500).send('issues while retrieving googleapi info');
-            }
-        });
-    //no isbn - custom entry
-    } else {
-        inputData = req.body;
-        db.books.save({
-            title: inputData.title,
-            author: inputData.author,
-            coverLink: 'img/default.jpg',
-            date: new Date(inputData.date).toDateString(),
-            type: inputData.book_type,
-            rating: inputData.rating,
-            lang: inputData.book_lang
-        }, function(err, saved) {
-            if (!err) {
-                res.status('200').send(inputData);
-                console.log("Book saved");
-            } else {
-                console.log("Issue while saving");
-            }
-        });
-    }
-});
+            //}
+        //});
+    ////no isbn - custom entry
+    //} else {
+        //inputData = req.body;
+        //db.books.save({
+            //title: inputData.title,
+            //author: inputData.author,
+            //coverLink: 'img/default.jpg',
+            //date: new Date(inputData.date).toDateString(),
+            //type: inputData.book_type,
+            //rating: inputData.rating,
+            //lang: inputData.book_lang
+        //}, function(err, saved) {
+            //if (!err) {
+                //res.status('200').send(inputData);
+                //console.log("Book saved");
+            //} else {
+                //console.log("Issue while saving");
+            //}
+        //});
+    //}
+//});
 
 app.get('/books', function(req, res){
     db.books.find(function(err, allBooks) {
@@ -112,9 +173,7 @@ app.get('/books', function(req, res){
 });
 
 
-//app.listen(3000);
-//console.log('Listening on port 3000');
 app.listen(port, ipaddress, function() {
-    console.log('%s: Node server started on %s:%d ...',
+    console.log('%s: This piece of shit is rolling... %s:%d ...',
     Date(Date.now() ), ipaddress, port);
 });
