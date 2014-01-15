@@ -117,7 +117,12 @@
     margin: 50px auto;
 }
 
-form
+form 
+{
+    padding: 8px 0 8px 0;
+}
+
+form, .preview-box
 {
     border: 1px solid #ccf;
     border-width: 1px 0px 1px 0px;
@@ -133,22 +138,38 @@ fieldset
     padding-bottom: 10px;
 }
 
+.preview-box
+{
+    padding: 10px 0 10px 0;
+}
+
 .preview-box .img-container
 {
     float: left;
     margin-bottom: 80px;
 }
 
+.preview-box .img-container img
+{
+    width: 128px;
+}
+
 .preview-box .description
 {
     float: left;
     margin-left: 20px;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     width: 810px;
+    height: 205px;
 }
 
 .preview-box .controls .btn-success
 {
     margin-right: 20px;
     margin-left: 20px;
+}
+
+table td img
+{
+    width: 50px;
 }
