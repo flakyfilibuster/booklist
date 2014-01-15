@@ -3,13 +3,16 @@
     var comm         = new Comm({ endpoint: "" }),
         _data        = books,
         doc          = window.document,
-        addButton    = doc.getElementById('addBookBtn'), 
+        queryButton  = doc.getElementById('addBookBtn'),
         openIsbnForm = doc.querySelector('.icon-barcode'),
         openCustForm = doc.querySelector('.icon-pencil'),
         form         = doc.getElementById("addBook"),
         previewBox   = doc.querySelector('.preview-box'),
         succAlert    = doc.querySelector('.alert-success'),
-        failAlert    = doc.querySelector('.alert-error');
+        failAlert    = doc.querySelector('.alert-error'),
+        bookAccept   = doc.querySelector('.book-accept'),
+        bookDecline  = doc.querySelector('.book-decline');
+
 
     //Prefill todays date in datepicker
     function dater() {
@@ -18,17 +21,40 @@
 
     // Add Book to the database
     function addBook(e) {
+        e.stopPropagation();
+        //form.reset();
+        comm.addBook("",
+            function(success) {
+                console.log("success main.js");
+                displayer(succAlert);
+                previewBox.classList.add('hide');
+            },
+            function(err) {
+                console.log("failure main.js");
+                displayer(failAlert);
+            }
+        );
+    }
+
+    // Handler if this is not the requested book
+    function declineBook(e) {
+        previewBox.classList.add('hide');
+        form.classList.remove('hide');
+        form.isbn.focus();
+    }
+
+
+    // Query Book via ISBN
+    function queryBook(e) {
         e.preventDefault();
         var oMyForm = formScraper(form);
         form.reset();
-        comm.addBook(oMyForm, 
+        comm.queryBook(oMyForm,
             function(success) {
-                //console.log("success main.js");
                 bookPreview(success);
-                //displayer(succAlert);
             }, 
             function(err) {
-                console.log("failure main.js");
+                console.log("failure main.js: ", err);
                 displayer(failAlert);
             }
         );
@@ -57,19 +83,23 @@
     }
 
     function bookPreview(previewJSON) {
-        var previewInfo  = JSON.parse(previewJSON).items[0].volumeInfo,
+        var previewInfo  = JSON.parse(previewJSON),
             title = previewInfo.title,
-            author = previewInfo.authors[0],
-            thumb = previewInfo.imageLinks.thumbnail,
-            date = previewInfo.publishedDate,
+            author = previewInfo.author,
+            thumb = previewInfo.coverLink.thumbnail,
+            date = previewInfo.date,
             desc = previewInfo.description,
-            myPreview = previewBox.cloneNode(true);
-            
-            myPreview.querySelector('.img-container').innerHTML = '<img class="img-polaroid" src='+thumb+'>';
-            myPreview.querySelector('.description').innerHTML = '<h4>'+title+'</h4><p>'+author+'</p><p>'+date+'</p><p>'+desc.slice(0,600)+'</p>';
+            imgContainer  = previewBox.querySelector('.img-container'),
+            descContainer = previewBox.querySelector('.description'),
+            myPreviewImg  = imgContainer.cloneNode(true),
+            myPreviewDesc = descContainer.cloneNode(true);
+
+            myPreviewImg.innerHTML = '<img class="img-polaroid" src='+thumb+'>';
+            myPreviewDesc.innerHTML = '<h4>'+title+'</h4><p>'+author+'</p><p>'+date+'</p><p>'+desc.slice(0,600)+'...</p>';
         
-        previewBox.parentNode.replaceChild(myPreview, previewBox);
-        myPreview.classList.remove('hide');
+        imgContainer.parentNode.replaceChild(myPreviewImg, imgContainer);
+        descContainer.parentNode.replaceChild(myPreviewDesc, descContainer);
+        previewBox.classList.remove('hide');
         form.classList.add('hide');
     }
 
@@ -95,9 +125,11 @@
         addButton.set("disabled", !(title.get('value') && author.get('value')));
     }
 
-    addButton.addEventListener('click', addBook, false);
+    queryButton.addEventListener('click', queryBook, false);
     openIsbnForm.addEventListener('click', revealForm, false);
-    openCustForm.addEventListener('click', revealForm, false);
+    //openCustForm.addEventListener('click', revealForm, false);
+    bookAccept.addEventListener('click', addBook, false);
+    bookDecline.addEventListener('click', declineBook, false);
     dater();
 
 }(window, Comm));
