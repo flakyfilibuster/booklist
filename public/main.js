@@ -105,7 +105,7 @@
 
 
     var revealForm = function(e) {
-        form.classList.remove('hide');
+        form.classList.toggle('hide');
 
         if (e.target.className === "icon-barcode"){
             form.querySelector("#author").parentNode.classList.add('hide');
