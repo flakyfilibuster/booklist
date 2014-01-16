@@ -38,9 +38,14 @@
 
     // Handler if this is not the requested book
     function declineBook(e) {
-        previewBox.classList.add('hide');
-        form.classList.remove('hide');
-        form.isbn.focus();
+        previewBox.querySelector('.img-container').classList.remove('in');
+        previewBox.querySelector('.description').classList.remove('in');
+        previewBox.querySelector('.controls').classList.remove('in');
+        setTimeout(function() {
+            previewBox.classList.add('hide');
+            form.classList.remove('hide');
+            form.isbn.focus();
+        },2000);
     }
 
 
@@ -96,11 +101,16 @@
 
             myPreviewImg.innerHTML = '<img class="img-polaroid" src='+thumb+'>';
             myPreviewDesc.innerHTML = '<h4>'+title+'</h4><p>'+author+'</p><p>'+date+'</p><p>'+desc.slice(0,600)+'...</p>';
-        
+
         imgContainer.parentNode.replaceChild(myPreviewImg, imgContainer);
         descContainer.parentNode.replaceChild(myPreviewDesc, descContainer);
         previewBox.classList.remove('hide');
         form.classList.add('hide');
+        setTimeout(function() {
+            previewBox.querySelector('.img-container').classList.add('in');
+            previewBox.querySelector('.description').classList.add('in');
+            previewBox.querySelector('.controls').classList.add('in');
+        },100);
     }
 
 
