@@ -59,6 +59,10 @@ app.post('/queryBook', function(req, res){
                     };
                 }
 
+                if(!googleBookRes.description) {
+                    googleBookRes.description = "Sorry, no description available";
+                }
+
                 cachedBook = {
                     title: googleBookRes.title,
                     author: googleBookRes.authors[0],
