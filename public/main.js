@@ -45,7 +45,7 @@
             previewBox.classList.add('hide');
             form.classList.remove('hide');
             form.isbn.focus();
-        },2000);
+        },800);
     }
 
 
