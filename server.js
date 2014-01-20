@@ -86,7 +86,7 @@ app.post('/addBook', function(req, res) {
     try {
         db.books.save(cachedBook, function(err, saved) {
             if (!err) {
-                res.status(200).send('Book saved successfully');
+                res.status(200).send(cachedBook);
                 console.log("Book saved");
             } else {
                 res.status(500).send('issues while saving');
@@ -99,75 +99,6 @@ app.post('/addBook', function(req, res) {
     }
 });
 
-
-
-
-
-
-// POST add a book to collection logic
-//app.post('/addBook', function(req, res) {
-    //var inputData;
-
-    //// Is book with isbn information
-    //if (req.body.isbn) {
-        //request(GBOOKAPI + req.body.isbn, function (err, response, body) {
-            //if (!err && response.statusCode == 200) {
-                //console.log(body);
-                //res.status(200).send(body);
-                //inputData = JSON.parse(body).items[0].volumeInfo;
-
-                //if(!inputData.imageLinks) {
-                    //inputData.imageLinks = {smallThumbnail : 'img/default.jpg'};
-                //}
-
-                //try {
-                    //db.books.save({
-                        //title: inputData.title,
-                        //author: inputData.authors[0],
-                        //coverLink: inputData.imageLinks.smallThumbnail,
-                        //date: new Date(req.body.date).toDateString(),
-                        //type: req.body.book_type,
-                        //rating: req.body.rating,
-                        //lang: req.body.book_lang
-                    //}, function(err, saved) {
-                        //if (!err) {
-                            //res.status(200).send('Book saved successfully');
-                            //console.log("Book saved");
-                        //} else {
-                            //res.status(500).send('issues while saving');
-                            //console.log("Issue while saving");
-                        //}
-                    //});
-                //} catch (err) {
-                    //console.log(err);
-                    //res.status(500).send('issues while saving');
-                //}
-            //} else {
-                //console.log("googleBooksResponse: ",response);
-                //res.status(500).send('issues while retrieving googleapi info');
-            //}
-        //});
-    ////no isbn - custom entry
-    //} else {
-        //inputData = req.body;
-        //db.books.save({
-            //title: inputData.title,
-            //author: inputData.author,
-            //coverLink: 'img/default.jpg',
-            //date: new Date(inputData.date).toDateString(),
-            //type: inputData.book_type,
-            //rating: inputData.rating,
-            //lang: inputData.book_lang
-        //}, function(err, saved) {
-            //if (!err) {
-                //res.status('200').send(inputData);
-                //console.log("Book saved");
-            //} else {
-                //console.log("Issue while saving");
-            //}
-        //});
-    //}
-//});
 
 app.get('/books', function(req, res){
     db.books.find(function(err, allBooks) {
