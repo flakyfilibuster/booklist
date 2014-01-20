@@ -1,5 +1,7 @@
 (function (window, Comm) {
 
+    "use strict";
+
     var comm         = new Comm({ endpoint: "" }),
         _data        = books,
         doc          = window.document,
@@ -13,7 +15,6 @@
         bookAccept   = doc.querySelector('.book-accept'),
         bookDecline  = doc.querySelector('.book-decline');
 
-
     //Prefill todays date in datepicker
     function dater() {
        form.date.value = new Date().toISOString().slice(0,10);
@@ -26,6 +27,7 @@
         comm.addBook("",
             function(success) {
                 console.log("success main.js");
+                insertBook(success);
                 displayer(succAlert);
                 previewBox.classList.add('hide');
             },
@@ -35,6 +37,31 @@
             }
         );
     }
+
+    function insertBook(book){
+        
+        book = JSON.parse(book);
+        _data.push(book);
+
+        var TEMPLATE = "<tr>"+
+                           "<td>"+_data.length+"</td>"+
+                           "<td>"+book.title+"</td>"+
+                           "<td>"+book.author+"</td>"+
+                           "<td>"+book.date+"</td>"+
+                           "<td>"+book.type+"</td>"+
+                           "<td>"+book.lang+"</td>"+
+                           "<td data-rating='"+book.rating+"'></td>"+
+                           "<td><img src='"+book.coverLink+"' class='img-polaroid'></td>"+
+                       "</tr>";
+
+        var newRow = doc.createElement("tr");
+        newRow.innerHTML = TEMPLATE;
+        var firstRow = doc.querySelector(".list-container tbody tr");
+        var parentElement = firstRow.parentNode;
+        parentElement.insertBefore(newRow, firstRow);
+    }
+
+
 
     // Handler if this is not the requested book
     function declineBook(e) {
@@ -46,6 +73,7 @@
             form.classList.remove('hide');
             form.isbn.focus();
         },800);
+        dater();
     }
 
 
@@ -66,7 +94,7 @@
     }
 
     function formScraper(form) {
-        formDataObj = {};
+        var formDataObj = {};
 
         for(var i = 0; i<form.length; i++){
             if(form[i].tagName === "INPUT"){
@@ -121,6 +149,7 @@
             form.querySelector("#author").parentNode.classList.add('hide');
             form.querySelector("#title").parentNode.classList.add('hide');
             form.querySelector("#isbn").parentNode.classList.remove('hide');
+            dater();
         } else {
             form.querySelector("#isbn").parentNode.classList.add('hide');
             form.querySelector("#author").parentNode.classList.remove('hide');
@@ -140,6 +169,5 @@
     //openCustForm.addEventListener('click', revealForm, false);
     bookAccept.addEventListener('click', addBook, false);
     bookDecline.addEventListener('click', declineBook, false);
-    dater();
 
 }(window, Comm));
