@@ -146,7 +146,7 @@ fieldset
 .preview-box .img-container
 {
     float: left;
-    margin-bottom: 80px;
+    margin-bottom: 20px;
 }
 
 .preview-box .img-container img
@@ -163,10 +163,14 @@ fieldset
     height: 205px;
 }
 
+.preview-box .controls
+{
+    clear: both;
+}
+
 .preview-box .controls .btn-success
 {
     margin-right: 20px;
-    margin-left: 20px;
 }
 
 table td img
