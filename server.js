@@ -1,12 +1,31 @@
 #!/bin/env node
-var express = require('express');
-var app = express(); 
-var request = require('request');
-var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-var port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
-// default to a 'localhost' configuration:
-var connection_string = 'mydb';
+//*********************************************
+// MODULE DEPENDENCIES
+// ********************************************
+
+var express = require('express');
+var app = module.exports = express();
+var request = require('request');
+var mongojs = require('mongojs');
+
+//*********************************************
+// APP CONFIGURATION
+// ********************************************
+
+app.configure(function(){
+    app.set('ipaddress', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
+    app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
+    app.use(express.static(__dirname + '/public'));
+    app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
+    app.set('view engine', 'jade');
+    app.set('view options', { layout: false });
+    app.use(express.json());
+});
+
+app.configure('test', function(){
+    app.set('port', 3001);
+});
 
 // switch when run on openshift cloud
 if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
@@ -17,20 +36,15 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
   process.env.OPENSHIFT_APP_NAME;
 }
 
-var mongojs = require('mongojs');
+// default to a 'localhost' configuration:
+var connection_string = 'mydb';
 var db = mongojs(connection_string, ['books']);
 var books = db.collection('books');
-
 //googlebookapi url constant
 var GBOOKAPI = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
 var cachedBook = {};
 
-// define path to folder for serving static files
-app.use(express.static(__dirname + '/public'));
-app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
 
-// middleware to read form post values
-app.use(express.json());
 
 // ROOT logic
 app.get('/', function(req, res){
@@ -108,7 +122,11 @@ app.get('/books', function(req, res){
 });
 
 
-app.listen(port, ipaddress, function() {
+
+// Routes
+require('./apps/index/routes')(app);
+
+app.listen(app.settings.port, app.settings.ipaddress, function() {
     console.log('%s: This piece of shit is rolling... %s:%d ...',
-    Date(Date.now() ), ipaddress, port);
+    Date(Date.now() ), app.settings.ipaddress, app.settings.port);
 });
