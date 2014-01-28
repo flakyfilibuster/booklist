@@ -4,10 +4,11 @@
 // MODULE DEPENDENCIES
 // ********************************************
 
-var express = require('express');
-var app = module.exports = express();
-var request = require('request');
-var mongojs = require('mongojs');
+var express     = require('express');
+var app         = module.exports = express();
+var request     = require('request');
+var mongojs     = require('mongojs');
+var MongoStore  = require('connect-mongo')(express);
 
 //*********************************************
 // APP CONFIGURATION
@@ -21,6 +22,13 @@ app.configure(function(){
     app.set('view engine', 'jade');
     app.set('view options', { layout: false });
     app.use(express.json());
+    app.use(express.cookieParser());
+    app.use(express.session({ 
+        store: new MongoStore({
+            url: 'mongodb://localhost/mydb'
+        }),
+        secret: "fjdaksfjaklfjasklfadasdasdsadafdsfragrfgafdnvakl" }
+    ));
 });
 
 app.configure('test', function(){
@@ -43,8 +51,6 @@ var books = db.collection('books');
 //googlebookapi url constant
 var GBOOKAPI = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
 var cachedBook = {};
-
-
 
 // ROOT logic
 app.get('/', function(req, res){
@@ -120,7 +126,6 @@ app.get('/books', function(req, res){
         res.send(allBooks);
     });
 });
-
 
 
 // Routes
