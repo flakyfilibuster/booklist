@@ -1,7 +1,7 @@
 {
-  "name": "OpenShift-Sample-App",
-  "version": "1.0.0",
-  "description": "OpenShift Sample Application",
+  "name": "Booklist",
+  "version": "0.0.1",
+  "description": "Booktracking application",
   "keywords": [
     "OpenShift",
     "Node.js",
@@ -9,30 +9,30 @@
     "openshift"
   ],
   "author": {
-    "name": "OpenShift",
-    "email": "ramr@example.org",
-    "url": "http://www.openshift.com/"
+    "name": "flaky",
+    "email": "flakyfilibuster@gmail.com"
   },
-  "homepage": "http://www.openshift.com/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/openshift/origin-server"
-  },
-
   "engines": {
     "node": ">= 0.6.0",
     "npm": ">= 1.0.0"
   },
-
   "dependencies": {
     "express": "3.x",
     "mongojs": "0.9.x",
     "request": "2.27.x",
-    "jade": "0.35.x"
+    "jade": "0.35.x",
+    "connect-mongo": "~0.4.0",
+    "connect-flash": "~0.1.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "node-dev": "~2.1.5",
+    "request": "2.27.x",
+    "mocha": "~1.17.0"
+  },
+  "scripts": {
+    "test": "./mocha test/*"
+  },
   "bundleDependencies": [],
-
   "private": true,
   "main": "server.js"
 }
