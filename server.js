@@ -127,9 +127,9 @@ app.get('/books', function(req, res){
     });
 });
 
+// Helpers
 
 // Routes
-require('./apps/index/routes')(app);
 
 app.listen(app.settings.port, app.settings.ipaddress, function() {
     console.log('%s: This piece of shit is rolling... %s:%d ...',
