@@ -3,7 +3,6 @@
     "use strict";
 
     var comm         = new Comm({ endpoint: "" }),
-        _data        = books,
         doc          = window.document,
         queryButton  = doc.getElementById('addBookBtn'),
         openIsbnForm = doc.querySelector('.icon-barcode'),
