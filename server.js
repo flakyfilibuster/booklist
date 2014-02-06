@@ -22,6 +22,7 @@ app.configure(function(){
     app.set('view engine', 'jade');
     app.set('view options', { layout: false });
     app.use(express.json());
+    app.use(express.urlencoded());
     app.use(express.cookieParser());
     app.use(express.session({ 
         store: new MongoStore({
@@ -52,12 +53,6 @@ var books = db.collection('books');
 var GBOOKAPI = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
 var cachedBook = {};
 
-// ROOT logic
-app.get('/', function(req, res){
-    db.books.find().sort({$natural: -1}, function(err, books) {
-        res.render('index.jade', {"books": books});
-    });
-});
 
 // Query google book api for a specific book and cache the returned info
 app.post('/queryBook', function(req, res){
@@ -130,8 +125,9 @@ app.get('/books', function(req, res){
 // Helpers
 
 // Routes
+require('./apps/read/routes')(app, db);
 
-app.listen(app.settings.port, app.settings.ipaddress, function() {
+var server = app.listen(app.settings.port, app.settings.ipaddress, function() {
     console.log('%s: This piece of shit is rolling... %s:%d ...',
     Date(Date.now() ), app.settings.ipaddress, app.settings.port);
 });
