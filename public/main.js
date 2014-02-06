@@ -22,43 +22,39 @@
     // Add Book to the database
     function addBook(e) {
         e.stopPropagation();
-        //form.reset();
         comm.addBook("",
             function(success) {
                 console.log("success main.js");
-                insertBook(success);
-                displayer(succAlert);
                 previewBox.classList.add('hide');
             },
             function(err) {
                 console.log("failure main.js");
-                displayer(failAlert);
             }
         );
     }
 
-    function insertBook(book){
+    //currently dormant!
+    //function insertBook(book){
         
-        book = JSON.parse(book);
-        _data.push(book);
+        //book = JSON.parse(book);
 
-        var TEMPLATE = "<tr>"+
-                           "<td>"+_data.length+"</td>"+
-                           "<td>"+book.title+"</td>"+
-                           "<td>"+book.author+"</td>"+
-                           "<td>"+book.date+"</td>"+
-                           "<td>"+book.type+"</td>"+
-                           "<td>"+book.lang+"</td>"+
-                           "<td data-rating='"+book.rating+"'></td>"+
-                           "<td><img src='"+book.coverLink+"' class='img-polaroid'></td>"+
-                       "</tr>";
+        //var TEMPLATE = "<tr>"+
+                           //"<td>"+_data.length+"</td>"+
+                           //"<td>"+book.title+"</td>"+
+                           //"<td>"+book.author+"</td>"+
+                           //"<td>"+book.date+"</td>"+
+                           //"<td>"+book.type+"</td>"+
+                           //"<td>"+book.lang+"</td>"+
+                           //"<td data-rating='"+book.rating+"'></td>"+
+                           //"<td><img src='"+book.coverLink+"' class='img-polaroid'></td>"+
+                       //"</tr>";
 
-        var newRow = doc.createElement("tr");
-        newRow.innerHTML = TEMPLATE;
-        var firstRow = doc.querySelector(".list-container tbody tr");
-        var parentElement = firstRow.parentNode;
-        parentElement.insertBefore(newRow, firstRow);
-    }
+        //var newRow = doc.createElement("tr");
+        //newRow.innerHTML = TEMPLATE;
+        //var firstRow = doc.querySelector(".list-container tbody tr");
+        //var parentElement = firstRow.parentNode;
+        //parentElement.insertBefore(newRow, firstRow);
+    //}
 
 
 
@@ -87,7 +83,6 @@
             }, 
             function(err) {
                 console.log("failure main.js: ", err);
-                displayer(failAlert);
             }
         );
     }
@@ -105,13 +100,6 @@
             }
         }
         return JSON.stringify(formDataObj);
-    }
-
-    function displayer(element) {
-       element.classList.toggle('hide'); 
-       setTimeout(function () {
-           element.classList.toggle('hide');
-       }, 3000);
     }
 
     function bookPreview(previewJSON) {
