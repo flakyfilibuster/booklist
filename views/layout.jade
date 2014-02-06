@@ -1,0 +1,23 @@
+!!! 5
+html
+  head
+    title= "Booklist - "+title
+    link(rel='stylesheet', href='/stylesheets/#{stylesheet1}.css')
+    link(rel='stylesheet', href='/stylesheets/#{stylesheet2}.css')
+  body
+
+    #header
+      h1= title
+
+    if(messages)
+      if(messages.error)
+        p(class="flash error")
+        = messages.error
+      if(messages.info)
+        p(class="flash info")
+        = messages.info
+
+    block content
+
+    script(src="xhr.js")
+    script(src="main.js")
