@@ -23,6 +23,7 @@ app.configure(function(){
     app.set('view options', { layout: false });
     app.use(express.json());
     app.use(express.urlencoded());
+    app.use(express.methodOverride());
     app.use(express.cookieParser());
     app.use(express.session({ 
         store: new MongoStore({
