@@ -58,6 +58,6 @@ require('./apps/read/routes')(app, db);
 require('./apps/query/routes')(app, request, db);
 
 var server = app.listen(app.settings.port, app.settings.ipaddress, function() {
-    console.log('%s: This piece of shit is rolling... %s:%d ...',
-    Date(Date.now() ), app.settings.ipaddress, app.settings.port);
+    console.log('%s || IP: %s || PORT: %d || ENV:',
+    Date(Date.now() ), app.settings.ipaddress, app.settings.port, app.settings.env.toUpperCase());;
 });
