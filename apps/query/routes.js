@@ -1,7 +1,9 @@
 var GBOOKAPI = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
-var cachedBook = {};
+var Book = require('../../models/book');
 
-var routes = function(app, request, db) {
+var routes = function(app, request) {
+    var book;
+
     app.post('/queryBook', function(req, res){
         request(GBOOKAPI + req.body.isbn, function (err, response, body) {
             googleBookRes = JSON.parse(body);
@@ -25,7 +27,7 @@ var routes = function(app, request, db) {
                     googleBookRes.description = "Sorry, no description available";
                 }
 
-                cachedBook = {
+                book = new Book({
                     title: googleBookRes.title,
                     author: googleBookRes.authors[0],
                     coverLink: googleBookRes.imageLinks,
@@ -34,8 +36,10 @@ var routes = function(app, request, db) {
                     description :  googleBookRes.description,
                     rating: req.body.rating,
                     lang: req.body.book_lang
-                };
-                res.status(200).send(cachedBook);
+                });
+
+                res.status(200).send(book);
+
             } else {
                 res.status(500).send(err);
             }
@@ -44,11 +48,16 @@ var routes = function(app, request, db) {
 
 
     app.post('/addBook', function(req, res) {
-        cachedBook.coverLink = cachedBook.coverLink.smallThumbnail;
+
+        book.coverLink = book.coverLink.smallThumbnail;
+
         try {
-            db.books.save(cachedBook, function(err, saved) {
+            book.save(function(err, saved) {
                 if (!err) {
-                    res.status(200).send(cachedBook);
+                    // on successful save we send back the updated booktable partial
+                    Book.getAll(function(err, books) {
+                        res.render(__dirname + "/../read/views/_booktable", { books: books });
+                    });
                     console.log("Book saved");
                 } else {
                     res.status(500).send('issues while saving');
