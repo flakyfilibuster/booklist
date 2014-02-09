@@ -7,7 +7,6 @@
 var express     = require('express');
 var app         = module.exports = express();
 var request     = require('request');
-var mongojs     = require('mongojs');
 var MongoStore  = require('connect-mongo')(express);
 
 //*********************************************
@@ -21,6 +20,7 @@ app.configure(function(){
     app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
     app.set('view engine', 'jade');
     app.set('view options', { layout: false });
+    app.use(express.logger('dev'));
     app.use(express.json());
     app.use(express.urlencoded());
     app.use(express.methodOverride());
@@ -32,6 +32,12 @@ app.configure(function(){
         secret: "fjdaksfjaklfjasklfadasdasdsadafdsfragrfgafdnvakl" }
     ));
 });
+
+// development only
+if ('development' == app.get('env')) {
+    app.use(express.errorHandler());
+    process.env.NODE_ENV = app.settings.env;
+}
 
 // test configuration
 app.configure('test', function(){
@@ -47,17 +53,12 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
   process.env.OPENSHIFT_APP_NAME;
 }
 
-// default to a 'localhost' configuration:
-var connection_string = 'mydb';
-var db = mongojs(connection_string, ['books']);
-var books = db.collection('books');
-
 
 // Routes
-require('./apps/read/routes')(app, db);
-require('./apps/query/routes')(app, request, db);
+require('./apps/read/routes')(app);
+require('./apps/query/routes')(app, request);
 
 var server = app.listen(app.settings.port, app.settings.ipaddress, function() {
     console.log('%s || IP: %s || PORT: %d || ENV:',
-    Date(Date.now() ), app.settings.ipaddress, app.settings.port, app.settings.env.toUpperCase());;
+    Date(Date.now() ), app.settings.ipaddress, app.settings.port, app.settings.env.toUpperCase());
 });
