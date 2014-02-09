@@ -23,9 +23,10 @@
     function addBook(e) {
         e.stopPropagation();
         comm.addBook("",
-            function(success) {
+            function(rsp) {
                 console.log("success main.js");
                 previewBox.classList.add('hide');
+                updateBooklist(rsp);
             },
             function(err) {
                 console.log("failure main.js");
@@ -33,28 +34,12 @@
         );
     }
 
-    //currently dormant!
-    //function insertBook(book){
-        
-        //book = JSON.parse(book);
-
-        //var TEMPLATE = "<tr>"+
-                           //"<td>"+_data.length+"</td>"+
-                           //"<td>"+book.title+"</td>"+
-                           //"<td>"+book.author+"</td>"+
-                           //"<td>"+book.date+"</td>"+
-                           //"<td>"+book.type+"</td>"+
-                           //"<td>"+book.lang+"</td>"+
-                           //"<td data-rating='"+book.rating+"'></td>"+
-                           //"<td><img src='"+book.coverLink+"' class='img-polaroid'></td>"+
-                       //"</tr>";
-
-        //var newRow = doc.createElement("tr");
-        //newRow.innerHTML = TEMPLATE;
-        //var firstRow = doc.querySelector(".list-container tbody tr");
-        //var parentElement = firstRow.parentNode;
-        //parentElement.insertBefore(newRow, firstRow);
-    //}
+    function updateBooklist(data){
+        var bookTable = doc.querySelector('.list-container');
+        var bookNumber = doc.querySelector('header span');
+        bookTable.innerHTML = data;
+        bookNumber.innerHTML = parseInt(bookNumber.innerHTML, 10)+1;
+    }
 
 
 
@@ -78,8 +63,8 @@
         var oMyForm = formScraper(form);
         form.reset();
         comm.queryBook(oMyForm,
-            function(success) {
-                bookPreview(success);
+            function(rsp) {
+                bookPreview(rsp);
             }, 
             function(err) {
                 console.log("failure main.js: ", err);
