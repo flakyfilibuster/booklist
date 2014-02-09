@@ -6,8 +6,10 @@ html
     link(rel='stylesheet', href='/stylesheets/#{stylesheet2}.css')
   body
 
-    #header
-      h1= title
+    header
+      h1.text-center
+        span=amount
+        =title
 
     if(messages)
       if(messages.error)
