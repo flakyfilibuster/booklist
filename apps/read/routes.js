@@ -1,8 +1,10 @@
+var Book = require('../../models/book');
+
 var routes = function(app, db){
     app.get('/', function(req, res){
-        db.books.find().sort({$natural: -1}, function(err, books) {
+        Book.getAll(function(err, books) {
             res.render(__dirname + "/views/index", {
-                title: "Index",
+                title: "Completed Books",
                 books: books,
                 stylesheet1: "main",
                 stylesheet2: "bootstrap"
