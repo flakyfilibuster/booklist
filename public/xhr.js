@@ -1,7 +1,8 @@
 var Comm = (function () {
 
-    var POST = "POST",
-        GET = "GET";
+    var POST   = "POST",
+        DELETE = "DELETE",
+        GET    = "GET";
 
     var Comm = function (config) {
         this.endpoint = config.endpoint;
@@ -10,12 +11,17 @@ var Comm = (function () {
     Comm.prototype.addBook = function(data, success, error) {
         console.log("data: ", data);
         this.request(POST, "/addBook", data, success, error);
-    }
+    };
+
+    Comm.prototype.deleteBook = function(data, success, error) {
+        console.log("data: ", data);
+        this.request(DELETE, "/deletebook/"+data, data, success, error);
+    };
 
     Comm.prototype.queryBook = function(data, success, error) {
         console.log("data: ", data);
         this.request(POST, "/queryBook", data, success, error);
-    }
+    };
 
     Comm.prototype.request = function(method, api, params, cbSuccess, cbError) {
         var xhr = new XMLHttpRequest(),
@@ -51,4 +57,5 @@ var Comm = (function () {
 
     Comm.prototype.Name = "Comm";
     return Comm;
+
 }());
