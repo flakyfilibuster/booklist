@@ -1,26 +1,17 @@
-div.list-container 
-  table.center-table.list-wrapper.table.table-condensed
-    thead
-      tr
-        th #
-        th Title 
-        th Author
-        th Date Added
-        th Type
-        th Lang
-        th Rating
-        th Cover
-    - var amountOfBooks = books.length;
-    for book in books
-      tr
-        td=amountOfBooks
-        td= book.title
-        td= book.author
-        td= book.date
-        td= book.type
-        td= book.lang
-        td(data-rating=book.rating)
-        td: img(class='img-polaroid' src=book.coverLink)
-      - amountOfBooks--;
-    else
-      tr sorry, no books!
+- var amountOfBooks = books.length;
+for book in books
+  tr
+    td=amountOfBooks
+    td= book.title
+    td= book.author
+    td= book.date
+    td= book.type
+    td= book.lang
+    td(data-rating=book.rating)
+    td: img(class='img-polaroid' src=book.coverLink)
+    td
+      a(class='delete', rel!=book._id)
+        | delete
+  - amountOfBooks--;
+else
+  tr sorry, no books!
