@@ -7,4 +7,17 @@ block content
           i.icon-barcode
 
       include _form
-      include _booktable
+      div.list-container
+        table.center-table.list-wrapper.table.table-condensed
+          thead
+            tr
+              th #
+              th Title
+              th Author
+              th Date Added
+              th Type
+              th Lang
+              th Rating
+              th Cover
+          <!-- beginning table body -->
+          include _booktable
