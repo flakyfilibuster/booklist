@@ -8,6 +8,7 @@
         openIsbnForm = doc.querySelector('.icon-barcode'),
         openCustForm = doc.querySelector('.icon-pencil'),
         form         = doc.getElementById("addBook"),
+        table        = doc.querySelector('table'),
         previewBox   = doc.querySelector('.preview-box'),
         succAlert    = doc.querySelector('.alert-success'),
         failAlert    = doc.querySelector('.alert-error'),
@@ -26,7 +27,7 @@
             function(rsp) {
                 console.log("success main.js");
                 previewBox.classList.add('hide');
-                updateBooklist(rsp);
+                updateBooklist(rsp, "add");
             },
             function(err) {
                 console.log("failure main.js");
@@ -34,11 +35,29 @@
         );
     }
 
-    function updateBooklist(data){
-        var bookTable = doc.querySelector('.list-container');
+    // Remove Book from database
+    function deleteBook(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        var bookID = e.target.rel;
+        comm.deleteBook(bookID,
+            function(rsp) {
+                updateBooklist(rsp, "delete");
+            },
+            function(err) {
+            }
+        );
+    }
+
+    function updateBooklist(data, option){
+        var bookTable = doc.querySelector('.list-container tbody');
         var bookNumber = doc.querySelector('header span');
         bookTable.innerHTML = data;
-        bookNumber.innerHTML = parseInt(bookNumber.innerHTML, 10)+1;
+        if("add" === option) {
+            bookNumber.innerHTML = parseInt(bookNumber.innerHTML, 10)+1;
+        } else {
+            bookNumber.innerHTML = parseInt(bookNumber.innerHTML, 10)-1;
+        }
     }
 
 
@@ -141,5 +160,6 @@
     //openCustForm.addEventListener('click', revealForm, false);
     bookAccept.addEventListener('click', addBook, false);
     bookDecline.addEventListener('click', declineBook, false);
+    table.addEventListener('click', deleteBook, false);
 
 }(window, Comm));
