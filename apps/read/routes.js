@@ -12,6 +12,13 @@ var routes = function(app, db){
             });
         });
     });
+
+    app.delete('/deletebook/:id', function(req, res){
+        Book.delete(req.params.id);
+        Book.getAll(function(err, books) {
+            res.render(__dirname + "/views/_booktable", { books: books });
+        });
+    });
 }
 
 module.exports = routes;
