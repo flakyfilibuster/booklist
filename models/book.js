@@ -1,4 +1,5 @@
-var db = require('mongojs').connect('localhost/mydb');
+var mongojs = require('mongojs');
+var db = mongojs.connect('localhost/mydb');
 
 var Book = (function() {
 
@@ -24,6 +25,10 @@ var Book = (function() {
                 callback(err, allBooks);
             }
         });
+    };
+
+    Book.delete = function(id) {
+        db.collection(Book.key()).remove({ _id : mongojs.ObjectId(id) });
     };
 
     Book.prototype.save = function(callback) {
