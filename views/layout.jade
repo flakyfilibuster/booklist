@@ -2,24 +2,18 @@ doctype
 html
   head
     title= "Booklist - "+title
-    link(rel='stylesheet', href='/stylesheets/#{stylesheet1}.css')
-    link(rel='stylesheet', href='/stylesheets/#{stylesheet2}.css')
+    link(rel='stylesheet', href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css")
+    link(rel='stylesheet', href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css")
+    link(rel='stylesheet', href="stylesheets/main.css")
+
   body
+    div(class="container")
+      if(messages)
+        if(messages.error)
+          div(class="alert alert-danger")
+            = messages.error
+        if(messages.info)
+          p(class="flash info")
+          = messages.info
 
-    header
-      h1.text-center
-        span=amount
-        =title
-
-    if(messages)
-      if(messages.error)
-        p(class="flash error")
-        = messages.error
-      if(messages.info)
-        p(class="flash info")
-        = messages.info
-
-    block content
-
-    script(src="xhr.js")
-    script(src="main.js")
+      block content
