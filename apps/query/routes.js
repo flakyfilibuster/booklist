@@ -52,10 +52,10 @@ var routes = function(app, request) {
         book.coverLink = book.coverLink.smallThumbnail;
 
         try {
-            book.save(function(err, saved) {
+            book.save(req.user.username, function(err, saved) {
                 if (!err) {
                     // on successful save we send back the updated booktable partial
-                    Book.getAll(function(err, books) {
+                    Book.getAll(req.user.username, function(err, books) {
                         res.render(__dirname + "/../read/views/_booktable", { books: books });
                     });
                     console.log("Book saved");
