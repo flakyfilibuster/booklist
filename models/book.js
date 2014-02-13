@@ -1,5 +1,5 @@
 var mongojs = require('mongojs');
-var db = mongojs.connect('localhost/mydb');
+var db      = mongojs.connect('localhost/mydb');
 
 var Book = (function() {
 
@@ -15,8 +15,8 @@ var Book = (function() {
         return 'book:'+ process.env.NODE_ENV;
     };
 
-    Book.getAll = function(callback) {
-        db.collection(Book.key()).find().sort({$natural: -1}, function(err, objects) {
+    Book.getAll = function(user, callback) {
+        db.collection(Book.key()+user).find().sort({$natural: -1}, function(err, objects) {
             if(!err) {
                 var allBooks = [];
                 for(var i = 0, len = objects.length; i<len; i++) {
@@ -27,12 +27,12 @@ var Book = (function() {
         });
     };
 
-    Book.delete = function(id) {
-        db.collection(Book.key()).remove({ _id : mongojs.ObjectId(id) });
+    Book.delete = function(user, id) {
+        db.collection(Book.key()+user).remove({ _id : mongojs.ObjectId(id) });
     };
 
-    Book.prototype.save = function(callback) {
-        db.collection(Book.key()).save(this, function(err, code) {
+    Book.prototype.save = function(user, callback) {
+        db.collection(Book.key()+user).save(this, function(err, code) {
             callback(null, this);
         });
     };
@@ -40,6 +40,6 @@ var Book = (function() {
 
     return Book;
 
-})();
+}());
 
 module.exports = Book;
