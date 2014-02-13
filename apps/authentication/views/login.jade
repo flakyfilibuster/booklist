@@ -1,0 +1,19 @@
+extends ../../../views/layout                                                                                                                                                   
+ 
+block content
+  h1.text-center 
+    span(class="fa fa-sign-in")
+    |  Login
+
+  div(class="col-sm-6 col-sm-offset-3")
+    form(action='/login', method='post')
+      div(class="form-group")
+        label Username
+        input(class="form-control", type='text', name='username')
+      div(class="form-group")
+        label Password
+        input(class="form-control", type='password', name='password')
+      button(class="btn btn-warning btn-lg", type='submit') Login
+    hr
+    p Need an account? 
+      a(href="/signup") SignUp
