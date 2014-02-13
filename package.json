@@ -23,6 +23,7 @@
     "jade": "1.1.5",
     "connect-mongo": "~0.4.0",
     "passport" : "~0.1.17",
+    "connect-flash": "~0.1.1",
     "passport-local" : "~0.1.6",
     "bcrypt-nodejs" : "latest",
     "connect-flash": "~0.1.1"
