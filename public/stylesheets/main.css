@@ -180,8 +180,11 @@ table td img
     margin-top: 40px;
 }
 
-span.username
+.username
 {
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .button-magic
@@ -214,7 +217,7 @@ div.sign-out
     display: inline-block;
     position: relative;
     top: -37px;
-    left: 839px;
+    left: 705px;
 }
 
 div.user-control
