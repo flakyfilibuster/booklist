@@ -10,7 +10,7 @@
 .rating
 {
     margin: 0 auto;
-    width: 85px;
+    width: 150px;
 }
 
 /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
@@ -26,15 +26,15 @@
 .rating:not(:checked) > label
 {
     float: right;
+    margin-top: 0px;
     width: 1em;
     padding: 0 .1em;
     overflow: hidden;
     white-space: nowrap;
     cursor: pointer;
-    font-size: 100%;
+    font-size: 30px;
     line-height: 1.2;
     color: #ddd;
-    text-shadow: 1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
 }
 
 .rating:not(:checked) > label:before
@@ -45,14 +45,12 @@
 .rating > input:checked ~ label
 {
     color: #f70;
-    text-shadow: 1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
 }
 
 .rating:not(:checked) > label:hover,
 .rating:not(:checked) > label:hover ~ label
 {
-    color: gold;
-    text-shadow: 1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+    color: #f0ad4e;
 }
 
 .rating > input:checked + label:hover,
@@ -62,7 +60,7 @@
 .rating > label:hover ~ input:checked ~ label
 {
     color: #ea0;
-    text-shadow: 1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+    margin-top: 0px;
 }
 
 .rating > label:active
@@ -74,8 +72,7 @@
 
 [data-rating]:before
 {
-    color: gold;
-    text-shadow: 1px 1px goldenrod, 2px 2px #B57340;
+    color: #f0ad4e;
     font-size: 25px;
 }
 
@@ -114,18 +111,18 @@
 .main-container
 {
     width: 970px;
-    margin: 50px auto;
+    margin: 25px auto;
+}
+
+header
+{
+    width: 970px;
+    margin: auto;
 }
 
 form 
 {
     padding: 8px 0 8px 0;
-}
-
-form, .preview-box
-{
-    border: 1px solid #ccf;
-    border-width: 1px 0px 1px 0px;
 }
 
 legend
@@ -181,4 +178,54 @@ table td img
 .list-container
 {
     margin-top: 40px;
+}
+
+span.username
+{
+}
+
+.button-magic
+{
+    width: 50%;
+}
+
+input[type="radio"].button-magic
+{
+    display:none;
+}
+
+input[type="radio"].button-magic:checked + label
+{
+    background-color: #eee;
+}
+
+.formPreview
+{
+    margin-bottom: 50px;
+}
+
+.table tbody tr td
+{
+    vertical-align: middle;
+}
+
+div.sign-out
+{
+    display: inline-block;
+    position: relative;
+    top: -37px;
+    left: 839px;
+}
+
+div.user-control
+{
+    display: inline-block;
+    position: relative;
+    top: -37px;
+}
+
+.input-form
+{
+    width: 50%;
+    margin-left: 25%;
 }
