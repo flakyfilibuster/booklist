@@ -6,7 +6,6 @@
 var express     = require('express');
 var app         = module.exports = express();
 var request     = require('request');
-var MongoStore  = require('connect-mongo')(express);
 var passport    = require('passport');
 var flash       = require('connect-flash');
 var config      = require('./config/config');
@@ -26,11 +25,7 @@ app.configure(function(){
     app.use(express.urlencoded());
     app.use(express.methodOverride());
     app.use(express.cookieParser());
-    app.use(express.session({ 
-        store: new MongoStore({
-            url: config.databaseURI 
-        }),
-        secret: "fjdaksfjaklfjasklfadasda"}));
+    app.use(express.session({ secret: config.secret }));
     app.use(flash());
     app.use(passport.initialize());
     app.use(passport.session());
@@ -53,11 +48,6 @@ if ('development' == app.get('env')) {
 app.configure('test', function(){
     app.set('port', 3001);
 });
-
-
-// ============================================
-// OPENSHIFT CONFIGURATION
-// ============================================
 
 
 // ============================================
