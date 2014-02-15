@@ -1,5 +1,5 @@
-var mongojs = require('mongojs'),
-    db      = mongojs.connect('localhost/mydb'),
+var mongojs = require("mongojs"),
+    db = require("../config/database"),
     bcrypt  = require('bcrypt-nodejs');
 
 var User = (function() {
