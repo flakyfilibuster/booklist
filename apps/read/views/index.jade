@@ -8,16 +8,22 @@ block content
         =title
 
       if(user)
-        span(class="username")= user.username
+        div(class="user-control")
+          span(class="fa fa-user")
+          span(class="username")=user.username
+
+        div(class="sign-out")
+          a(href="/logout")
+            span(class="fa fa-sign-out")
+            span SignOut
 
     div.main-container
-      div
-        div.form-selector
-          button(class="btn btn-info btn-block") Add a new book
+      div.form-selector
+        button(class="openform btn btn-info btn-block") Add a new book
 
       include _form
       div.list-container
-        table.center-table.list-wrapper.table.table-condensed
+        table.center-table.list-wrapper.table.table-striped.table-condensed
           thead
             tr
               th #
@@ -28,6 +34,7 @@ block content
               th Lang
               th Rating
               th Cover
+              th Delete
           <!-- beginning table body -->
           include _booktable
     script(src="xhr.js")
