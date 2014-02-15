@@ -1,5 +1,5 @@
-var mongojs = require('mongojs');
-var db      = mongojs.connect('localhost/mydb');
+var mongojs = require("mongojs");
+var db = require("../config/database");
 
 var Book = (function() {
 
