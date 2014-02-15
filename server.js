@@ -6,7 +6,7 @@
 var express     = require('express');
 var app         = module.exports = express();
 var request     = require('request');
-var MongoStore  = require('connect-mongo')(express);
+var MongoStore = require('connect-mongo')(express);
 var passport    = require('passport');
 var flash       = require('connect-flash');
 
@@ -84,11 +84,7 @@ require('./apps/authentication/routes')(app, passport);
 // ============================================
 // FIRE IT UP!
 // ============================================
-//var server = app.listen(app.settings.port, app.settings.ipaddress, function() {
-    //console.log('%s || IP: %s || PORT: %d || ENV:',
-    //Date(Date.now() ), app.settings.ipaddress, app.settings.port, app.settings.env.toUpperCase());
-//});
-var server = app.listen(process.env.OPENSHIFT_NODEJS_PORT, process.env.OPENSHIFT_NODEJS_IP, function() {
+var server = app.listen(app.settings.port, app.settings.ipaddress, function() {
     console.log('%s || IP: %s || PORT: %d || ENV:',
     Date(Date.now() ), app.settings.ipaddress, app.settings.port, app.settings.env.toUpperCase());
 });
