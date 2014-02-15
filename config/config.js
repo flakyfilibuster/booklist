@@ -12,6 +12,6 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
 
 config.ipaddress    = process.env.OPENSHIFT_NODEJS_IP || 'localhost';
 config.port         = process.env.OPENSHIFT_NODEJS_PORT || 3000;
-
+config.secret       = process.env.OPENSHIFT_SECRET_TOKEN || "nvsudialb3242342vianmvo9hibakeykuabvsykadvnoifk907498732avikfbdv7489236432403afdkuav";
 
 module.exports = config;
