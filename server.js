@@ -6,17 +6,17 @@
 var express     = require('express');
 var app         = module.exports = express();
 var request     = require('request');
-var MongoStore = require('connect-mongo')(express);
+var MongoStore  = require('connect-mongo')(express);
 var passport    = require('passport');
 var flash       = require('connect-flash');
-
+var config      = require('./config/config');
 
 // ============================================
 // APP CONFIGURATION - DEFAULT
 // ============================================
 app.configure(function(){
-    app.set('ipaddress', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
-    app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
+    app.set('ipaddress', config.ipaddress);
+    app.set('port', config.port);
     app.use(express.static(__dirname + '/public'));
     app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
     app.set('view engine', 'jade');
@@ -28,7 +28,7 @@ app.configure(function(){
     app.use(express.cookieParser());
     app.use(express.session({ 
         store: new MongoStore({
-            url: 'localhost/mydb'
+            url: config.databaseURI 
         }),
         secret: "fjdaksfjaklfjasklfadasda"}));
     app.use(flash());
@@ -58,13 +58,6 @@ app.configure('test', function(){
 // ============================================
 // OPENSHIFT CONFIGURATION
 // ============================================
-if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
-  connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
-  process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
-  process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
-  process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
-  process.env.OPENSHIFT_APP_NAME;
-}
 
 
 // ============================================
