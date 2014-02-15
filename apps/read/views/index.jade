@@ -9,13 +9,11 @@ block content
 
       if(user)
         div(class="user-control")
-          span(class="fa fa-user")
-          span(class="username")=user.username
+          span(class="fa fa-user username")=user.username
 
         div(class="sign-out")
           a(href="/logout")
-            span(class="fa fa-sign-out")
-            span SignOut
+            span(class="fa fa-sign-out") SignOut
 
     div.main-container
       div.form-selector
