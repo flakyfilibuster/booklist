@@ -14,28 +14,28 @@ var flash       = require('connect-flash');
 // ============================================
 // APP CONFIGURATION - DEFAULT
 // ============================================
-app.configure(function(){
-    app.set('ipaddress', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
-    app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
-    app.use(express.static(__dirname + '/public'));
-    app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
-    app.set('view engine', 'jade');
-    app.set('view options', { layout: false });
-    app.use(express.logger('dev'));
-    app.use(express.json());
-    app.use(express.urlencoded());
-    app.use(express.methodOverride());
-    app.use(express.cookieParser());
-    app.use(express.session({ 
-        store: new MongoStore({
-            url: 'localhost/mydb'
-        }),
-        secret: "fjdaksfjaklfjasklfadasda"}));
-    app.use(flash());
-    app.use(passport.initialize());
-    app.use(passport.session());
-    require('./config/passport')(passport);
-});
+var port = process.env.OPENSHIFT_NODEJS_PORT ||  process.env.OPENSHIFT_INTERNAL_PORT || 8080;
+var ipAdd = process.env.OPENSHIFT_NODEJS_IP || process.env.OPENSHIFT_INTERNAL_IP || 'localhost';
+//app.set('ipaddress', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
+//app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
+app.use(express.static(__dirname + '/public'));
+app.use(express.favicon(__dirname + '/public/img/favicon.ico'));
+app.set('view engine', 'jade');
+app.set('view options', { layout: false });
+app.use(express.logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(express.methodOverride());
+app.use(express.cookieParser());
+app.use(express.session({ 
+    store: new MongoStore({
+        url: 'localhost/mydb'
+    }),
+    secret: "fjdaksfjaklfjasklfadasda"}));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
 
 
 // ============================================
@@ -88,7 +88,7 @@ require('./apps/authentication/routes')(app, passport);
     //console.log('%s || IP: %s || PORT: %d || ENV:',
     //Date(Date.now() ), app.settings.ipaddress, app.settings.port, app.settings.env.toUpperCase());
 //});
-var server = app.listen(process.env.OPENSHIFT_NODEJS_PORT, process.env.OPENSHIFT_NODEJS_IP, function() {
-    console.log('%s || IP: %s || PORT: %d || ENV:',
-    Date(Date.now() ), app.settings.ipaddress, app.settings.port, app.settings.env.toUpperCase());
+var server = app.listen(port, ipAdd, function() {
+    //console.log('%s || IP: %s || PORT: %d || ENV:',
+    //Date(Date.now() ), app.settings.ipaddress, app.settings.port, app.settings.env.toUpperCase());
 });
