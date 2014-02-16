@@ -1,0 +1,28 @@
+doctype
+html
+  head
+    title= "Booklist - Home"
+    link(rel='stylesheet', href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css")
+    link(rel='stylesheet', href="stylesheets/font-awesome.css")
+    link(rel='stylesheet', href="stylesheets/home.css")
+
+  body
+    header
+      h1 Little Booklist   
+    section(class="jumbotron ")
+        h1 Love reading books?
+        section(class="icon-section")
+          span(class="fa fa-barcode")
+            p Find
+          span(class="fa fa-star")
+            p Rate
+          span(class="fa fa-list-ol") 
+            p Add
+          span(class="fa fa-beer") 
+            p Drink
+        a(id="signup" class="btn btn-default btn-lg" href="/signup")
+          i(class="fa fa-pencil") 
+          |  SignUp
+        a(id="login" class="btn btn-default btn-lg" href="/login")
+          i(class="fa fa-sign-in") 
+          |  Login
