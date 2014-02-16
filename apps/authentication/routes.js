@@ -31,7 +31,7 @@ var routes = function(app, passport){
 
     app.get('/logout', function(req, res) {
         req.logout();
-        res.redirect('/login');
+        res.redirect('/');
     });
 
     function isLoggedIn(req, res, next) {
