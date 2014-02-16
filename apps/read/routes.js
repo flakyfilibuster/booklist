@@ -12,7 +12,7 @@ var routes = function(app, db){
                 });
             });
         } else {
-            res.redirect('/login');
+            res.render(__dirname + "/../../views/home");
         }
     });
 
