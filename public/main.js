@@ -11,6 +11,7 @@
         previewBox   = doc.querySelector('.preview-box'),
         succAlert    = doc.querySelector('.alert-success'),
         failAlert    = doc.querySelector('.alert-error'),
+        queryloading = doc.querySelector('.query-loading'),
         bookAccept   = doc.querySelector('.book-accept'),
         bookDecline  = doc.querySelector('.book-decline');
 
@@ -81,17 +82,33 @@
     // Query Book via ISBN
     function queryBook(e) {
         e.preventDefault();
+        form.classList.toggle('hide');
+        queryloading.classList.toggle('hide');
         var oMyForm = formScraper(form);
         form.reset();
         comm.queryBook(oMyForm,
             function(rsp) {
+                queryloading.classList.toggle('hide');
                 bookPreview(rsp);
             }, 
             function(err) {
-                console.log("failure main.js: ", err);
+                queryBookErrorHandler(err);
             }
         );
     }
+
+
+    function queryBookErrorHandler(error) {
+        queryloading.classList.toggle('hide');
+        doc.querySelector('.form-error').innerHTML = '<b>'+error+'</b>';
+        dater();
+        form.classList.toggle('hide');
+        doc.querySelector('.form-error').classList.toggle('hide');
+        setTimeout(function() {
+            doc.querySelector('.form-error').classList.toggle('hide');
+        },2000)
+    }
+
 
     function formScraper(form) {
         var formDataObj = {};
@@ -107,6 +124,7 @@
         }
         return JSON.stringify(formDataObj);
     }
+
 
     function bookPreview(previewJSON) {
         var previewInfo     = JSON.parse(previewJSON),
@@ -125,8 +143,8 @@
 
         imgContainer.parentNode.replaceChild(myPreviewImg, imgContainer);
         descContainer.parentNode.replaceChild(myPreviewDesc, descContainer);
+        queryloading.classList.add('hide');
         previewBox.classList.remove('hide');
-        form.classList.add('hide');
         setTimeout(function() {
             previewBox.querySelector('.img-container').classList.add('in');
             previewBox.querySelector('.description').classList.add('in');
@@ -136,13 +154,7 @@
 
 
     var revealForm = (function(e) {
-        // little fucked up closure for button inner text magic...
-        var buttonPhrase = "Nevermind... Let me see the list";
-        return function(e) {
             var interimVar = e.target.innerHTML;
-            e.target.innerHTML = buttonPhrase;
-            buttonPhrase = interimVar;
-
             form.classList.toggle('hide');
 
             if (e.target.className !== "icon-barcode"){
@@ -156,7 +168,7 @@
                 form.querySelector("#title").parentNode.classList.remove('hide');
             }
         }
-    }());
+    );
 
 
 
