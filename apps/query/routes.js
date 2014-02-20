@@ -1,4 +1,4 @@
-var GBOOKAPI = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
+var GBOOKAPI = require('../../config/config').googlebooksapi;
 var Book = require('../../models/book');
 
 var routes = function(app, request) {
@@ -10,7 +10,7 @@ var routes = function(app, request) {
 
             if (!err && response.statusCode == 200) {
                 if (0 === googleBookRes.totalItems) {
-                    res.status(500).send("book not within googles shelfs");
+                    res.status(500).send("Book not within Google shelfs");
                     return;
                 }
 
