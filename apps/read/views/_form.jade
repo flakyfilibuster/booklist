@@ -1,45 +1,45 @@
 div.formPreview
   div(class="input-form")
-    form(class="text-center hide" id="addBook" action="addBook" method="POST" autocomplete="off")
-        div.form-group
-          input(class="form-control" placeholder="isbn" name="isbn" id="isbn" type="text")
+    form(class="text-center hide" id="addBook" action="/addBook" method="POST" autocomplete="off")
+      div.form-group
+        input(class="form-control" placeholder="isbn" name="isbn" id="isbn" type="text" pattern="\\d{10}|\\d{13}" required)
 
-        div.form-group
-          input(class="form-control" placeholder="Author" name="author" id="author" type="text")
+      div.form-group
+        input(class="form-control" placeholder="Author" name="author" id="author" type="text")
 
-        div.form-group
-          input(class="form-control" placeholder="Title" name="title" id="title" type="text")
+      div.form-group
+        input(class="form-control" placeholder="Title" name="title" id="title" type="text")
 
-        div.form-group
-          input(class="form-control" placeholder="yyyy-mm-dd" name="date" id="date" type="date")
+      div.form-group
+        input(class="form-control" placeholder="yyyy-mm-dd" name="date" id="date" type="date" required)
 
-        div.form-group
-          input(class="button-magic" id="rb1" type="radio" name="book_lang" value="en" checked="")
-          label(class="button-magic inline btn btn-default" for="rb1") English
-          input(class="button-magic" id="rb2" type="radio", name="book_lang", value="de")
-          label(class="button-magic inline btn btn-default" for="rb2") Deutsch
+      div.form-group
+        input(class="button-magic" id="rb1" type="radio" name="book_lang" value="en" checked="")
+        label(class="button-magic inline btn btn-default" for="rb1") English
+        input(class="button-magic" id="rb2" type="radio", name="book_lang", value="de")
+        label(class="button-magic inline btn btn-default" for="rb2") Deutsch
 
-        div.form-group
-          input(class="button-magic" id="rb3" type="radio", name="book_type", value="fiction", checked="")
-          label(class="button-magic inline btn btn-default" for="rb3") Fiction
-          input(class="button-magic" id="rb4" type="radio", name="book_type", value="non-fiction")
-          label(class="button-magic inline btn btn-default" for="rb4") Non-Fiction
+      div.form-group
+        input(class="button-magic" id="rb3" type="radio", name="book_type", value="fiction", checked="")
+        label(class="button-magic inline btn btn-default" for="rb3") Fiction
+        input(class="button-magic" id="rb4" type="radio", name="book_type", value="non-fiction")
+        label(class="button-magic inline btn btn-default" for="rb4") Non-Fiction
 
-        div.form-group
-          div.rating
-            input(type="radio" id="star5" name="rating" value="5")
-            label(class="radio" for="star5" title="Algebraic!")
-            input(type="radio" id="star4" name="rating" value="4")
-            label(class="radio" for="star4" title="Pretty good")
-            input(type="radio" id="star3" name="rating" value="3")
-            label(class="radio" for="star3" title="Ok")
-            input(type="radio" id="star2" name="rating" value="2")
-            label(class="radio" for="star2" title="Kinda bad")
-            input(type="radio" id="star1" name="rating" value="1")
-            label(class="radio" for="star1" title="Nope!")
+      div.form-group
+        div.rating
+          input(type="radio" id="star5" name="rating" value="5")
+          label(class="radio" for="star5" title="Algebraic!")
+          input(type="radio" id="star4" name="rating" value="4")
+          label(class="radio" for="star4" title="Pretty good")
+          input(type="radio" id="star3" name="rating" value="3")
+          label(class="radio" for="star3" title="Ok")
+          input(type="radio" id="star2" name="rating" value="2")
+          label(class="radio" for="star2" title="Kinda bad")
+          input(type="radio" id="star1" name="rating" value="1" checked)
+          label(class="radio" for="star1" title="Nope!")
 
-        div.mySubmit
-          button(id="addBookBtn" type="submit" class="btn btn-primary btn-lg btn-block") Add this book!
+      div.mySubmit
+        button(id="addBookBtn" type="submit" class="btn btn-primary btn-lg btn-block") Add this book!
 
   div.preview-box.hide
     div.img-container.fade
