@@ -165,7 +165,7 @@
         addButton.set("disabled", !(title.get('value') && author.get('value')));
     }
 
-    queryButton.addEventListener('click', queryBook, false);
+    form.addEventListener('submit', queryBook, false);
     openIsbnForm.addEventListener('click', revealForm, false);
     bookAccept.addEventListener('click', addBook, false);
     bookDecline.addEventListener('click', declineBook, false);
