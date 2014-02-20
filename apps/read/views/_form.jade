@@ -1,6 +1,7 @@
 div.formPreview
   div(class="input-form")
     form(class="text-center hide" id="addBook" action="/addBook" method="POST" autocomplete="off")
+      div.form-error.alert.alert-danger.hide
       div.form-group
         input(class="form-control" placeholder="isbn" name="isbn" id="isbn" type="text" pattern="\\d{10}|\\d{13}" required)
 
@@ -48,3 +49,6 @@ div.formPreview
       span
         button.btn.btn-success.book-accept Yes, that's it!
         button.btn.btn-warning.book-decline Nope, not it.
+
+  div.query-loading.hide
+    i(class="fa fa-spinner fa-spin fa-5x")
