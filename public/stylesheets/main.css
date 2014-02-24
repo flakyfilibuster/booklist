@@ -118,6 +118,7 @@ header
 {
     width: 970px;
     margin: auto;
+    position: relative;
 }
 
 form 
@@ -215,16 +216,16 @@ input[type="radio"].button-magic:checked + label
 div.sign-out
 {
     display: inline-block;
-    position: relative;
-    top: -37px;
-    left: 705px;
+    position: absolute;
+    top: 15px;
+    left: 905px;
 }
 
 div.user-control
 {
     display: inline-block;
-    position: relative;
-    top: -37px;
+    position: absolute;
+    top: 15px;
 }
 
 .input-form
