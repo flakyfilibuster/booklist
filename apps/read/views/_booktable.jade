@@ -10,8 +10,8 @@ for book in books
     td(data-rating=book.rating)
     td: img(class='img-thumbnail' src=book.coverLink)
     td
-      a(class='delete', href="/delete", rel!=book._id)
-        span(class="fa fa-trash-o fa-2x")
+      a(href="/delete", rel!=book._id)
+        span(class="delete fa fa-trash-o fa-2x")
   - amountOfBooks--;
 else
   tr
