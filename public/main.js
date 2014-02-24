@@ -37,6 +37,9 @@
 
     // Remove Book from database
     function deleteBook(e) {
+        if(!e.target.classList.contains('delete')){
+            return;
+        }
         e.stopPropagation();
         e.preventDefault();
         var confirmation = confirm('Are you sure you want to delete this book?');
