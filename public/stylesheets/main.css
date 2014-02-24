@@ -176,6 +176,13 @@ table td img
     width: 50px;
 }
 
+table td img:hover
+{
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+}
+
+
 .list-container
 {
     margin-top: 40px;
@@ -239,4 +246,10 @@ div.user-control
     text-align: center;
     height: 300px;
     padding-top: 110px;
+}
+
+.delete:active
+{
+    -webkit-transform: scale(.8);
+    transform: scale(.8);
 }
