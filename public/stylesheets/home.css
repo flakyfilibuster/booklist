@@ -64,6 +64,8 @@ span.fa:not(:last-child)
 {
     color: #f0ad4e;
     background: white;
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
 }
 
 footer 
