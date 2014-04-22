@@ -157,10 +157,10 @@
         }
     }
 
-    form.addEventListener('submit', queryBook, false);
-    openIsbnForm.addEventListener('click', revealForm, false);
-    bookAccept.addEventListener('click', addBook, false);
-    bookDecline.addEventListener('click', declineBook, false);
-    table.addEventListener('click', deleteBook, false);
+    util.addHandler(form, 'submit', queryBook);
+    util.addHandler(openIsbnForm, 'click', revealForm);
+    util.addHandler(bookAccept, 'click', addBook);
+    util.addHandler(bookDecline, 'click', declineBook);
+    util.addHandler(table, 'click', deleteBook);
 
 }(window, xhr, util));

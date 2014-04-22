@@ -39,6 +39,10 @@ var util =  {
 
     replaceWith : function(previous, current) {
         previous.parentNode.replaceChild(current, previous);
+    },
+
+    addHandler : function(element, on, callback) {
+        element.addEventListener(on, callback, false);
     }
 
 };
