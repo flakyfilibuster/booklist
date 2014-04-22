@@ -1,32 +1,27 @@
-(function (window, Comm) {
+"use strict";
 
-    "use strict";
+(function (window, xhr, util) {
 
-    var comm         = new Comm({ endpoint: "" }),
-        doc          = window.document,
-        queryButton  = doc.getElementById('addBookBtn'),
-        openIsbnForm = doc.querySelector('.openform'),
-        form         = doc.getElementById("addBook"),
-        table        = doc.querySelector('table'),
-        previewBox   = doc.querySelector('.preview-box'),
-        succAlert    = doc.querySelector('.alert-success'),
-        failAlert    = doc.querySelector('.alert-error'),
-        queryloading = doc.querySelector('.query-loading'),
-        bookAccept   = doc.querySelector('.book-accept'),
-        bookDecline  = doc.querySelector('.book-decline');
+    var doc          = window.document,
+        comm         = xhr.getInstance(),
+        queryButton  = util.q$(doc, '#addBookBtn'),
+        openIsbnForm = util.q$(doc, '.openform'),
+        form         = util.q$(doc, "#addBook"),
+        table        = util.q$(doc, 'table'),
+        previewBox   = util.q$(doc, '.preview-box'),
+        succAlert    = util.q$(doc, '.alert-success'),
+        failAlert    = util.q$(doc, '.alert-error'),
+        queryloading = util.q$(doc, '.query-loading'),
+        bookAccept   = util.q$(doc, '.book-accept'),
+        bookDecline  = util.q$(doc, '.book-decline');
 
-    //Prefill todays date in datepicker
-    function dater() {
-       form.date.value = new Date().toISOString().slice(0,10);
-    }
 
     // Add Book to the database
     function addBook(e) {
         e.stopPropagation();
-        comm.addBook("",
+        comm.addBook(
             function(rsp) {
-                console.log("success main.js");
-                previewBox.classList.add('hide');
+                util.c$$(previewBox, 'hide', 'add');
                 updateBooklist(rsp, "add");
             },
             function(err) {
@@ -37,12 +32,15 @@
 
     // Remove Book from database
     function deleteBook(e) {
+        //need to check for class as we delegate the click to whole table
         if(!e.target.classList.contains('delete')){
             return;
         }
         e.stopPropagation();
         e.preventDefault();
+
         var confirmation = confirm('Are you sure you want to delete this book?');
+
         if(confirmation) {
             var bookID = e.target.parentElement.rel;
             comm.deleteBook(bookID,
@@ -56,42 +54,42 @@
     }
 
     function updateBooklist(data, option){
-        var bookTable = doc.querySelector('.list-container tbody');
-        var bookNumber = doc.querySelector('header h1 span');
+        var bookTable = util.q$(doc, '.list-container tbody'),
+            bookNumber = util.q$(doc, 'header h1 span');
         bookTable.innerHTML = data;
-        if("add" === option) {
+        if ("add" === option) {
             bookNumber.innerHTML = parseInt(bookNumber.innerHTML, 10)+1;
-        } else {
-            bookNumber.innerHTML = parseInt(bookNumber.innerHTML, 10)-1;
+            return;
         }
+        bookNumber.innerHTML = parseInt(bookNumber.innerHTML, 10)-1;
     }
 
 
 
     // Handler if this is not the requested book
     function declineBook(e) {
-        previewBox.querySelector('.img-container').classList.remove('in');
-        previewBox.querySelector('.description').classList.remove('in');
-        previewBox.querySelector('.controls').classList.remove('in');
+        util.c$$(util.q$(previewBox, '.img-container'), 'in', 'remove');
+        util.c$$(util.q$(previewBox, '.description'), 'in', 'remove');
+        util.c$$(util.q$(previewBox, '.controls'), 'in', 'remove');
         setTimeout(function() {
-            previewBox.classList.add('hide');
-            form.classList.remove('hide');
+            util.c$$(previewBox, 'hide', 'add');
+            util.c$$(form, 'hide', 'remove');
             form.isbn.focus();
         },800);
-        dater();
+        form.date.value = util.dater();
     }
 
 
     // Query Book via ISBN
     function queryBook(e) {
         e.preventDefault();
-        form.classList.toggle('hide');
-        queryloading.classList.toggle('hide');
+        util.c$$(form, 'hide', 'toggle');
+        util.c$$(queryloading, 'hide', 'toggle');
         var oMyForm = formScraper(form);
         form.reset();
         comm.queryBook(oMyForm,
             function(rsp) {
-                queryloading.classList.toggle('hide');
+                util.c$$(queryloading, 'hide', 'toggle');
                 bookPreview(rsp);
             }, 
             function(err) {
@@ -102,30 +100,29 @@
 
 
     function queryBookErrorHandler(error) {
-        queryloading.classList.toggle('hide');
-        doc.querySelector('.form-error').innerHTML = '<b>'+error+'</b>';
-        dater();
-        form.classList.toggle('hide');
-        doc.querySelector('.form-error').classList.toggle('hide');
+        util.c$$(queryloading, 'hide', 'toggle');
+        var errorFlash = util.q$(doc, '.form-error');
+        errorFlash.innerHTML = '<b>'+error+'</b>';
+        form.date.value = util.dater();
+        util.c$$(form, 'hide', 'toggle');
+        util.c$$(errorFlash, 'hide', 'toggle');
         setTimeout(function() {
-            doc.querySelector('.form-error').classList.toggle('hide');
+            util.c$$(errorFlash, 'hide', 'toggle');
         },2000)
     }
 
-
     function formScraper(form) {
-        var formDataObj = {};
-
-        for(var i = 0; i<form.length; i++){
-            if(form[i].tagName === "INPUT"){
-                if(form[i].type === "radio" && form[i].checked){
-                   formDataObj[form[i].name] = form[i].value;
-                }else if(form[i].type != "radio"){
-                   formDataObj[form[i].name] = form[i].value;
+        var result = Array.prototype.reduce.call(form, function (formDataObj, current) {
+            if(current.tagName === "INPUT"){
+                if(current.type === "radio" && current.checked){
+                   formDataObj[current.name] = current.value;
+                }else if(current.type != "radio"){
+                   formDataObj[current.name] = current.value;
                 }
             }
-        }
-        return JSON.stringify(formDataObj);
+            return formDataObj;
+        },{})
+        return JSON.stringify(result);
     }
 
 
@@ -156,23 +153,24 @@
     }
 
 
-    var revealForm = (function(e) {
-            var interimVar = e.target.innerHTML;
-            form.classList.toggle('hide');
+    function revealForm(e) {
+        // TODO: either remove author title entry or support on server
+        //Prefill todays date in datepicker
+        form.date.value = util.dater();
 
-            if (e.target.className !== "icon-barcode"){
-                form.querySelector("#author").parentNode.classList.add('hide');
-                form.querySelector("#title").parentNode.classList.add('hide');
-                form.querySelector("#isbn").parentNode.classList.remove('hide');
-                dater();
-            } else {
-                form.querySelector("#isbn").parentNode.classList.add('hide');
-                form.querySelector("#author").parentNode.classList.remove('hide');
-                form.querySelector("#title").parentNode.classList.remove('hide');
-            }
+        util.c$$(form, 'hide', 'toggle');
+
+        if (e.target.className !== "icon-barcode"){
+            util.c$$(util.q$(form, "#author").parentNode, 'hide', 'add');
+            util.c$$(util.q$(form, "#title").parentNode, 'hide', 'add');
+            util.c$$(util.q$(form, "#isbn").parentNode, 'hide', 'remove');
+            form.date.value = util.dater();
+        } else {
+            util.c$$(util.q$(form, "#isbn").parentNode, 'hide', 'add');
+            util.c$$(util.q$(form, "#author").parentNode, 'hide', 'remove');
+            util.c$$(util.q$(form, "#title").parentNode, 'hide', 'remove');
         }
-    );
-
+    }
 
 
     // Validate the form input 
@@ -186,4 +184,4 @@
     bookDecline.addEventListener('click', declineBook, false);
     table.addEventListener('click', deleteBook, false);
 
-}(window, Comm));
+}(window, xhr, util));
