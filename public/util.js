@@ -21,5 +21,19 @@ var util =  {
             default:
                 console.warn('no such command');
         }
+    },
+
+    formScraper : function(form) {
+        var result = Array.prototype.reduce.call(form, function (formDataObj, current) {
+            if(current.tagName === "INPUT"){
+                if(current.type === "radio" && current.checked){
+                   formDataObj[current.name] = current.value;
+                }else if(current.type != "radio"){
+                   formDataObj[current.name] = current.value;
+                }
+            }
+            return formDataObj;
+        },{})
+        return JSON.stringify(result);
     }
 };
