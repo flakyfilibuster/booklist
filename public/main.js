@@ -127,13 +127,13 @@
         util.replaceWith(imgContainer, myPreviewImg);
         util.replaceWith(descContainer, myPreviewDesc);
 
-        queryloading.classList.add('hide');
-        previewBox.classList.remove('hide');
+        util.c$$(queryloading, 'hide', 'add');
+        util.c$$(previewBox, 'hide', 'remove');
 
         setTimeout(function() {
-            previewBox.querySelector('.img-container').classList.add('in');
-            previewBox.querySelector('.description').classList.add('in');
-            previewBox.querySelector('.controls').classList.add('in');
+            util.c$$(util.q$(previewBox, '.img-container'), 'in', 'add');
+            util.c$$(util.q$(previewBox, '.description'), 'in', 'add');
+            util.c$$(util.q$(previewBox, '.controls'), 'in', 'add');
         },100);
     }
 
@@ -155,12 +155,6 @@
             util.c$$(util.q$(form, "#author").parentNode, 'hide', 'remove');
             util.c$$(util.q$(form, "#title").parentNode, 'hide', 'remove');
         }
-    }
-
-
-    // Validate the form input 
-    function checkForm() {
-        addButton.set("disabled", !(title.get('value') && author.get('value')));
     }
 
     form.addEventListener('submit', queryBook, false);
