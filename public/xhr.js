@@ -1,61 +1,68 @@
-var Comm = (function () {
+var xhr = (function () {
 
-    var POST   = "POST",
-        DELETE = "DELETE",
-        GET    = "GET";
+    // variable to hold our XHR instance
+    var instance;
 
-    var Comm = function (config) {
-        this.endpoint = config.endpoint;
-    };
+    // Singleton / private methods and variables
+    function init() {
 
-    Comm.prototype.addBook = function(data, success, error) {
-        console.log("data: ", data);
-        this.request(POST, "/addBook", data, success, error);
-    };
+        var POST   = "POST",
+            DELETE = "DELETE",
+            GET    = "GET";
 
-    Comm.prototype.deleteBook = function(data, success, error) {
-        console.log("data: ", data);
-        this.request(DELETE, "/deletebook/"+data, data, success, error);
-    };
+        var request = function(method, url, params, cbSuccess, cbError) {
+            var xhr = new XMLHttpRequest();
 
-    Comm.prototype.queryBook = function(data, success, error) {
-        console.log("data: ", data);
-        this.request(POST, "/queryBook", data, success, error);
-    };
+            xhr.open(method, url, true);
 
-    Comm.prototype.request = function(method, api, params, cbSuccess, cbError) {
-        var xhr = new XMLHttpRequest(),
-            url = this.endpoint + api;
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    cbSuccess(xhr.response);
+                }
+                if (xhr.status === 500) {
+                    cbError(xhr.response);
+                }
+            };
 
-        console.log(method, url, params);    
-        xhr.open(method, url, true);
+            xhr.onerror = function (err) {
+                cbError("server issues");
+            };
 
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                console.log(">>> 200 xhr: ", xhr);
-                cbSuccess(xhr.response);
+            if (method === POST) {
+                xhr.setRequestHeader("Content-type", "application/json", false);
             }
-            if (xhr.status === 500) {
-                console.log(">>> 500 xhr: ", xhr);
-                cbError(xhr.response);
-            }
+
+            xhr.send(params);
         };
 
-        xhr.onerror = function (err) {
-            console.log(">>> err xhr: ", xhr);
-            cbError("server issues");
-        };
+        // All public methods / variables
+        return {
+            addBook : function(success, error) {
+                request(POST, "/addBook", "", success, error);
+            },
 
+            deleteBook : function(data, success, error) {
+                request(DELETE, "/deletebook/"+data, data, success, error);
+            },
 
-        if (method === POST) {
-            xhr.setRequestHeader("Content-type", "application/json", false);
+            queryBook : function(data, success, error) {
+                request(POST, "/queryBook", data, success, error);
+            }
         }
+    }
 
-        xhr.send(params);
+    return {
+        // Get the Singleton instance if one exists
+        // or create one if it doesn't
+        getInstance: function () {
 
+            if ( !instance ) {
+                instance = init();
+            }
+
+            return instance;
+        }
     };
 
-    Comm.prototype.Name = "Comm";
-    return Comm;
 
 }());
