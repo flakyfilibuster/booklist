@@ -113,23 +113,23 @@
 
     function bookPreview(previewJSON) {
         var previewInfo     = JSON.parse(previewJSON),
-            title           = previewInfo.title,
-            author          = previewInfo.author,
-            thumb           = previewInfo.coverLink.thumbnail,
-            date            = previewInfo.date,
-            desc            = previewInfo.description,
-            imgContainer    = previewBox.querySelector('.img-container'),
-            descContainer   = previewBox.querySelector('.description'),
+            imgContainer    = util.q$(previewBox, '.img-container'),
+            descContainer   = util.q$(previewBox, '.description'),
             myPreviewImg    = imgContainer.cloneNode(true),
             myPreviewDesc   = descContainer.cloneNode(true);
 
-            myPreviewImg.innerHTML = '<img class="img-thumbnail" src='+thumb+'>';
-            myPreviewDesc.innerHTML = '<h4>'+title+'</h4><p>'+author+'</p><p>'+date+'</p><p>'+desc.slice(0,600)+'...</p>';
+        myPreviewImg.innerHTML = '<img class="img-thumbnail" src='+previewInfo.coverLink.thumbnail+'>';
+        myPreviewDesc.innerHTML = '<h4>'+previewInfo.title+'</h4><p>'+
+                                   previewInfo.author+'</p><p>'+
+                                   previewInfo.date+'</p><p>'+
+                                   previewInfo.description.slice(0,600)+'...</p>';
 
-        imgContainer.parentNode.replaceChild(myPreviewImg, imgContainer);
-        descContainer.parentNode.replaceChild(myPreviewDesc, descContainer);
+        util.replaceWith(imgContainer, myPreviewImg);
+        util.replaceWith(descContainer, myPreviewDesc);
+
         queryloading.classList.add('hide');
         previewBox.classList.remove('hide');
+
         setTimeout(function() {
             previewBox.querySelector('.img-container').classList.add('in');
             previewBox.querySelector('.description').classList.add('in');

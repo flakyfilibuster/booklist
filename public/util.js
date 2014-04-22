@@ -35,5 +35,10 @@ var util =  {
             return formDataObj;
         },{})
         return JSON.stringify(result);
+    },
+
+    replaceWith : function(previous, current) {
+        previous.parentNode.replaceChild(current, previous);
     }
+
 };
