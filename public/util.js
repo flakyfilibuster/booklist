@@ -1,6 +1,6 @@
 "use strict";
 
-var util =  {
+    FLAKY.util =  {
 
     dater : function() {
        return new Date().toISOString().slice(0,10);

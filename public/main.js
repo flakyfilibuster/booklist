@@ -112,6 +112,7 @@
     }
 
     function bookPreview(previewJSON) {
+        // TODO: Replace with severside template
         var previewInfo     = JSON.parse(previewJSON),
             imgContainer    = util.q$(previewBox, '.img-container'),
             descContainer   = util.q$(previewBox, '.description'),
@@ -163,4 +164,4 @@
     util.addHandler(bookDecline, 'click', declineBook);
     util.addHandler(table, 'click', deleteBook);
 
-}(window, xhr, util));
+}(window, FLAKY.xhr, FLAKY.util));
