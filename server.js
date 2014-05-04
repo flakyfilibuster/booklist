@@ -60,7 +60,8 @@ require('./apps/helpers')(app);
 // ROUTES
 // ============================================
 require('./apps/read/routes')(app);
-require('./apps/query/routes')(app, request);
+require('./apps/delete/routes')(app);
+require('./apps/query/routes')(app, config, request);
 require('./apps/authentication/routes')(app, passport);
 
 
