@@ -1,13 +1,15 @@
 var routes = function(app, passport){
+
     app.get('/login', function(req, res){
         if(req.user) {
-            res.redirect('/')
-        } else {
-            res.render(__dirname + "/views/login", {
-                title: "Login",
-                messages: req.flash()
-            })
+            res.redirect('/');
+            return;
         }
+
+        res.render(__dirname + "/views/login", {
+            title: "Login",
+            messages: req.flash()
+        });
     });
 
     app.post('/login', passport.authenticate('local-login', {
@@ -20,7 +22,7 @@ var routes = function(app, passport){
         res.render(__dirname + "/views/signup", {
             title: "SignUp",
             messages: req.flash()
-        })
+        });
     });
 
     app.post('/signup', passport.authenticate('local-signup', {
@@ -40,6 +42,7 @@ var routes = function(app, passport){
         }
         res.redirect('/login');
     }
-}
+};
 
 module.exports = routes;
+
