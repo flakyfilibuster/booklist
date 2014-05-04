@@ -1,45 +1,28 @@
-var mongojs = require("mongojs");
-var db = require("../config/database");
+var mongojs = require("mongojs"),
+    db      = require("../config/database");
 
-var Book = (function() {
+module.exports = {
 
-    function Book(attributes) {
-        var key, value;
-        for (key in attributes) {
-            value = attributes[key];
-            this[key] = value;
-        }
-    }
-
-    Book.key = function() {
+    key: function() {
         return 'book:'+ process.env.NODE_ENV;
-    };
+    },
 
-    Book.getAll = function(user, callback) {
-        db.collection(Book.key()+user).find().sort({$natural: -1}, function(err, objects) {
+    getAll : function(user, callback) {
+        db.collection(this.key()+user).find().sort({$natural: -1}, function(err, books ) {
             if(!err) {
-                var allBooks = [];
-                for(var i = 0, len = objects.length; i<len; i++) {
-                    allBooks.push(new Book(objects[i]));
-                }
-                callback(err, allBooks);
+                callback(err, books);
             }
         });
-    };
+    },
 
-    Book.delete = function(user, id) {
-        db.collection(Book.key()+user).remove({ _id : mongojs.ObjectId(id) });
-    };
+    delete : function(user, id) {
+        db.collection(this.key()+user).remove({ _id : mongojs.ObjectId(id) });
+    },
 
-    Book.prototype.save = function(user, callback) {
-        db.collection(Book.key()+user).save(this, function(err, code) {
+    save : function(user, book, callback) {
+        db.collection(this.key()+user).save(book, function(err, code) {
             callback(null, this);
         });
-    };
+    }
+};
 
-
-    return Book;
-
-}());
-
-module.exports = Book;
