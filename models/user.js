@@ -1,56 +1,61 @@
 var mongojs = require("mongojs"),
-    db = require("../config/database"),
+    db      = require("../config/database"),
     bcrypt  = require('bcrypt-nodejs');
 
-var User = (function() {
-
-    function User(attributes) {
-        var key, value;                                                                                                                                                         
-            for (key in attributes) {
-            value = attributes[key];
-            this[key] = value;
-        }
+// User class constructor
+var User = function(attributes) {
+    var key, value;
+        for (key in attributes) {
+        value = attributes[key];
+        this[key] = value;
     }
+};
 
-    User.key = function() {
+// User 'class' prototype methods
+User.prototype.generateHash = function(password) {
+    this.password = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+User.prototype.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+};
+
+
+// UserCtrl
+var UserCtrl = {
+
+    key : function() {
         return 'user:'+ process.env.NODE_ENV;
-    };
-    
-    User.findOne = function(id, callback) {                                                                                                                                      
-        db.collection(User.key()).findOne(id, function (err, user) {
-            if(user){
-                var newUser = new User(user);
-                callback(null, newUser);
-            }else{
+    },
+
+    findOne : function(id, callback) {
+        db.collection(this.key()).findOne(id, function (err, user) {
+            if (user) {
+                // on success instantiate a User & send it back
+                user = new User(user);
+                callback(null, user);
+            } else {
                 callback(null, user);
             }
         });
-    };
+    },
 
-    User.findById = function(id, callback) {
-        db.collection(User.key()).findOne({ 
+    findById : function(id, callback) {
+        db.collection(this.key()).findOne({
             _id : mongojs.ObjectId(id) 
         }, function(err, user) {
-            callback(null, user)
+            callback(null, user);
         });
-    };
+    },
 
-    User.prototype.generateHash = function(password) {
-        return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-    };
-
-    User.prototype.validPassword = function(password) {
-        return bcrypt.compareSync(password, this.password);
-    };
-
-    User.prototype.save = function(callback) {
-        db.collection(User.key()).save(this, function(err, code) {
-            callback(null, this);
+    save : function(user, callback) {
+        db.collection(this.key()).save(user, function(err, code) {
+            callback(null, user);
         });
-    };
+    },
+};
 
-    return User;
+exports.user     = User;
+exports.userCtrl = UserCtrl;
 
-}())
-
-module.exports = User;
