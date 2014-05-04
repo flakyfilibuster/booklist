@@ -14,7 +14,7 @@ module.exports = function(app, db){
             // get all books for user
             // render index tpl with books info + additional options
             BookCtrl.getAll(user.username, function(err, books) {
-                res.render(__dirname + "/views/index", {
+                res.render("../views/index", {
                     amount: books.length,
                     title: " Completed Books",
                     books: books,
@@ -26,7 +26,7 @@ module.exports = function(app, db){
         }
 
         // if there is no user object we render the default home page
-        res.render(__dirname + "/../../views/home");
+        res.render("../views/home");
     });
 };
 

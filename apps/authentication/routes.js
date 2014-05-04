@@ -6,7 +6,7 @@ var routes = function(app, passport){
             return;
         }
 
-        res.render(__dirname + "/views/login", {
+        res.render("../views/login", {
             title: "Login",
             messages: req.flash()
         });
@@ -19,7 +19,7 @@ var routes = function(app, passport){
     }));
 
     app.get('/signup', function(req, res) {
-        res.render(__dirname + "/views/signup", {
+        res.render("../views/signup", {
             title: "SignUp",
             messages: req.flash()
         });

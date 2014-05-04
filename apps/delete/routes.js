@@ -9,7 +9,7 @@ module.exports = function(app, db){
         BookCtrl.delete(username, req.params.id);
 
         BookCtrl.getAll(username, function(err, books) {
-            res.render(__dirname + "/../read/views/_booktable", { books: books });
+            res.render("../views/_booktable", { books: books });
         });
     });
 };

@@ -58,7 +58,7 @@ module.exports = function(app, config, request) {
                 if (!err) {
                     // on successful save we send back the updated booktable partial
                     BookCtrl.getAll(username, function(err, books) {
-                        res.render(__dirname + "/../read/views/_booktable", { books: books });
+                        res.render("../views/_booktable", { books: books });
                     });
                     console.log("Book saved");
                 } else {
