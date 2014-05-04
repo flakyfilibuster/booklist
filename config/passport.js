@@ -1,5 +1,6 @@
-var LocalStrategy   = require('passport-local').Strategy;
-var User  = require('../models/user');
+var LocalStrategy = require('passport-local').Strategy,
+    User          = require('../models/user').user,
+    UserCtrl      = require('../models/user').userCtrl;
 
 module.exports = function(passport) {
 
@@ -8,7 +9,7 @@ module.exports = function(passport) {
     });
 
     passport.deserializeUser(function(user, done) {
-        User.findById(user._id, function(err, user) {
+        UserCtrl.findById(user._id, function(err, user) {
             done(err, user);
         });
     });
@@ -21,21 +22,24 @@ module.exports = function(passport) {
     },
     function(req, username, password, done) {
         process.nextTick(function() {
-            User.findOne({ 'username' :  username }, function(err, user) {
+            UserCtrl.findOne({ 'username' :  username }, function(err, user) {
                 if (err) {
                     return done(err);
                 }
 
                 if (user) {
-                    return done(null, false, req.flash('error', 'That username is already taken.'));
+                    return done(
+                        null,
+                        false,
+                        req.flash('error', 'That username is already taken.')
+                    );
                 } else {
-
                     
-                    var newUser = new User({});
-                    newUser.username = username;
-                    newUser.password = newUser.generateHash(password);
+                    // create a new user and generate a hashed password
+                    var newUser = new User({ username: username });
+                    newUser.generateHash(password);
 
-                    newUser.save(function(err) {
+                    UserCtrl.save(newUser, function(err) {
                         if (err)
                             throw err;
                         return done(null, newUser);
@@ -54,7 +58,8 @@ module.exports = function(passport) {
 
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-            User.findOne({ 'username' :  username }, function(err, user) {
+            UserCtrl.findOne({ 'username' :  username }, function(err, user) {
+
                 // if there are any errors, return the error before anything else
                 if (err){
                     return done(err);
@@ -62,17 +67,25 @@ module.exports = function(passport) {
 
                 // if no user is found, return the message
                 if (!user) {
-                    return done(null, false, req.flash('error', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+                    return done(
+                        null,
+                        false,
+                        req.flash('error', 'Wrong username or password. Please try again')
+                    );
                 }
 
                 // if the user is found but the password is wrong
                 if (!user.validPassword(password)) {
-                    return done(null, false, req.flash('error', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+                    return done(
+                        null,
+                        false,
+                        req.flash('error', 'Wrong username or password. Please try again')
+                    );
                 }
 
                 // all is well, return successful user
                 return done(null, user);
             });
     }));
-
 };
+
