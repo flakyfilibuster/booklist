@@ -9,6 +9,7 @@ FLAKY.xhr = (function () {
     // Singleton / private methods and variables
     function init() {
 
+        // define constants
         var POST   = "POST",
             DELETE = "DELETE",
             GET    = "GET";
@@ -51,7 +52,7 @@ FLAKY.xhr = (function () {
             queryBook : function(data, success, error) {
                 request(POST, "/queryBook", data, success, error);
             }
-        }
+        };
     }
 
     return {

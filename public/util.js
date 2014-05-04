@@ -1,6 +1,5 @@
-"use strict";
 
-    FLAKY.util =  {
+FLAKY.util =  {
 
     dater : function() {
        return new Date().toISOString().slice(0,10);
@@ -33,7 +32,7 @@
                 }
             }
             return formDataObj;
-        },{})
+        },{});
         return JSON.stringify(result);
     },
 
