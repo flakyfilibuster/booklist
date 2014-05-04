@@ -34,7 +34,8 @@
     "mocha": "~1.17.0"
   },
   "scripts": {
-    "test": "./mocha test/*"
+    "test": "./mocha test/*",
+    "start": "./node_modules/node-dev/bin/node-dev server.js"
   },
   "bundleDependencies": [],
   "private": true,
