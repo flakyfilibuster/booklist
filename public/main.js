@@ -1,19 +1,20 @@
-"use strict";
-
 (function (window, xhr, util) {
+    "use strict";
 
     var doc          = window.document,
         comm         = xhr.getInstance(),
-        queryButton  = util.q$(doc, '#addBookBtn'),
-        openIsbnForm = util.q$(doc, '.openform'),
-        form         = util.q$(doc, "#addBook"),
-        table        = util.q$(doc, 'table'),
-        previewBox   = util.q$(doc, '.preview-box'),
-        succAlert    = util.q$(doc, '.alert-success'),
-        failAlert    = util.q$(doc, '.alert-error'),
-        queryloading = util.q$(doc, '.query-loading'),
-        bookAccept   = util.q$(doc, '.book-accept'),
-        bookDecline  = util.q$(doc, '.book-decline');
+        q$           = util.q$,
+        c$$          = util.c$$,
+        queryButton  = q$(doc, '#addBookBtn'),
+        openIsbnForm = q$(doc, '.openform'),
+        form         = q$(doc, "#addBook"),
+        table        = q$(doc, 'table'),
+        previewBox   = q$(doc, '.preview-box'),
+        succAlert    = q$(doc, '.alert-success'),
+        failAlert    = q$(doc, '.alert-error'),
+        queryloading = q$(doc, '.query-loading'),
+        bookAccept   = q$(doc, '.book-accept'),
+        bookDecline  = q$(doc, '.book-decline');
 
 
     // Add Book to the database
@@ -21,7 +22,7 @@
         e.stopPropagation();
         comm.addBook(
             function(rsp) {
-                util.c$$(previewBox, 'hide', 'add');
+                c$$(previewBox, 'hide', 'add');
                 updateBooklist(rsp, "add");
             },
             function(err) {
@@ -54,8 +55,8 @@
     }
 
     function updateBooklist(data, option){
-        var bookTable = util.q$(doc, '.list-container tbody'),
-            bookNumber = util.q$(doc, 'header h1 span');
+        var bookTable = q$(doc, '.list-container tbody'),
+            bookNumber = q$(doc, 'header h1 span');
         bookTable.innerHTML = data;
         if ("add" === option) {
             bookNumber.innerHTML = parseInt(bookNumber.innerHTML, 10)+1;
@@ -68,12 +69,12 @@
 
     // Handler if this is not the requested book
     function declineBook(e) {
-        util.c$$(util.q$(previewBox, '.img-container'), 'in', 'remove');
-        util.c$$(util.q$(previewBox, '.description'), 'in', 'remove');
-        util.c$$(util.q$(previewBox, '.controls'), 'in', 'remove');
+        c$$(q$(previewBox, '.img-container'), 'in', 'remove');
+        c$$(q$(previewBox, '.description'), 'in', 'remove');
+        c$$(q$(previewBox, '.controls'), 'in', 'remove');
         setTimeout(function() {
-            util.c$$(previewBox, 'hide', 'add');
-            util.c$$(form, 'hide', 'remove');
+            c$$(previewBox, 'hide', 'add');
+            c$$(form, 'hide', 'remove');
             form.isbn.focus();
         },800);
         form.date.value = util.dater();
@@ -83,13 +84,13 @@
     // Query Book via ISBN
     function queryBook(e) {
         e.preventDefault();
-        util.c$$(form, 'hide', 'toggle');
-        util.c$$(queryloading, 'hide', 'toggle');
+        c$$(form, 'hide', 'toggle');
+        c$$(queryloading, 'hide', 'toggle');
         var oMyForm = util.formScraper(form);
         form.reset();
         comm.queryBook(oMyForm,
             function(rsp) {
-                util.c$$(queryloading, 'hide', 'toggle');
+                c$$(queryloading, 'hide', 'toggle');
                 bookPreview(rsp);
             }, 
             function(err) {
@@ -100,22 +101,23 @@
 
 
     function queryBookErrorHandler(error) {
-        util.c$$(queryloading, 'hide', 'toggle');
-        var errorFlash = util.q$(doc, '.form-error');
+        c$$(queryloading, 'hide', 'toggle');
+        var errorFlash = q$(doc, '.form-error');
         errorFlash.innerHTML = '<b>'+error+'</b>';
         form.date.value = util.dater();
-        util.c$$(form, 'hide', 'toggle');
-        util.c$$(errorFlash, 'hide', 'toggle');
+        c$$(form, 'hide', 'toggle');
+        c$$(errorFlash, 'hide', 'toggle');
+
         setTimeout(function() {
-            util.c$$(errorFlash, 'hide', 'toggle');
-        },2000)
+            c$$(errorFlash, 'hide', 'toggle');
+        }, 2000);
     }
 
     function bookPreview(previewJSON) {
         // TODO: Replace with severside template
         var previewInfo     = JSON.parse(previewJSON),
-            imgContainer    = util.q$(previewBox, '.img-container'),
-            descContainer   = util.q$(previewBox, '.description'),
+            imgContainer    = q$(previewBox, '.img-container'),
+            descContainer   = q$(previewBox, '.description'),
             myPreviewImg    = imgContainer.cloneNode(true),
             myPreviewDesc   = descContainer.cloneNode(true);
 
@@ -128,13 +130,13 @@
         util.replaceWith(imgContainer, myPreviewImg);
         util.replaceWith(descContainer, myPreviewDesc);
 
-        util.c$$(queryloading, 'hide', 'add');
-        util.c$$(previewBox, 'hide', 'remove');
+        c$$(queryloading, 'hide', 'add');
+        c$$(previewBox, 'hide', 'remove');
 
         setTimeout(function() {
-            util.c$$(util.q$(previewBox, '.img-container'), 'in', 'add');
-            util.c$$(util.q$(previewBox, '.description'), 'in', 'add');
-            util.c$$(util.q$(previewBox, '.controls'), 'in', 'add');
+            c$$(q$(previewBox, '.img-container'), 'in', 'add');
+            c$$(q$(previewBox, '.description'), 'in', 'add');
+            c$$(q$(previewBox, '.controls'), 'in', 'add');
         },100);
     }
 
@@ -144,17 +146,17 @@
         //Prefill todays date in datepicker
         form.date.value = util.dater();
 
-        util.c$$(form, 'hide', 'toggle');
+        c$$(form, 'hide', 'toggle');
 
         if (e.target.className !== "icon-barcode"){
-            util.c$$(util.q$(form, "#author").parentNode, 'hide', 'add');
-            util.c$$(util.q$(form, "#title").parentNode, 'hide', 'add');
-            util.c$$(util.q$(form, "#isbn").parentNode, 'hide', 'remove');
+            c$$(q$(form, "#author").parentNode, 'hide', 'add');
+            c$$(q$(form, "#title").parentNode, 'hide', 'add');
+            c$$(q$(form, "#isbn").parentNode, 'hide', 'remove');
             form.date.value = util.dater();
         } else {
-            util.c$$(util.q$(form, "#isbn").parentNode, 'hide', 'add');
-            util.c$$(util.q$(form, "#author").parentNode, 'hide', 'remove');
-            util.c$$(util.q$(form, "#title").parentNode, 'hide', 'remove');
+            c$$(q$(form, "#isbn").parentNode, 'hide', 'add');
+            c$$(q$(form, "#author").parentNode, 'hide', 'remove');
+            c$$(q$(form, "#title").parentNode, 'hide', 'remove');
         }
     }
 
