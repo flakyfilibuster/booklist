@@ -1,4 +1,4 @@
-var Book = require('../../models/book');
+var BookCtrl = require('../../models/book');
 
 module.exports = function(app, db){
 
@@ -6,9 +6,9 @@ module.exports = function(app, db){
     app.delete('/deletebook/:id', function(req, res){
         var username = req.user.username;
 
-        Book.delete(username, req.params.id);
+        BookCtrl.delete(username, req.params.id);
 
-        Book.getAll(username, function(err, books) {
+        BookCtrl.getAll(username, function(err, books) {
             res.render(__dirname + "/../read/views/_booktable", { books: books });
         });
     });
