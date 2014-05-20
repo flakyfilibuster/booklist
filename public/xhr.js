@@ -1,7 +1,5 @@
-// namespacing - probably should be done in an init?
-var FLAKY = {};
-    
-FLAKY.xhr = (function () {
+
+flaky.xhr = (function () {
 
     // variable to hold our XHR instance
     var instance;

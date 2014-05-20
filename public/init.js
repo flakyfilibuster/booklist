@@ -1,0 +1,1 @@
+window.flaky.init(window);

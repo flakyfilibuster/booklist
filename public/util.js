@@ -1,5 +1,5 @@
 
-FLAKY.util =  {
+flaky.util =  {
 
     dater : function() {
        return new Date().toISOString().slice(0,10);
