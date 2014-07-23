@@ -9,7 +9,7 @@ keep track of your books
 
 signUp or login
 --
-![signUp](public/img/02signUp.png?raw=true "sign up")
+![signUp](public/img/02_signUp.png?raw=true "sign up")
 
 start adding to your list
 --
